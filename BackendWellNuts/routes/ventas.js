@@ -3,13 +3,9 @@ const router = express.Router();
 const ventasController = require('../controllers/ventasController');
 
 router.get('/', ventasController.getVentas);
-
 router.get('/:id', ventasController.getVentaById);
-
 router.delete('/:id', ventasController.eliminarVenta);
-
-router.put('/:id', ventasController.modificarVenta);
-
-router.post('/', ventasController.createVenta); 
+router.post('/completa', ventasController.crearVentaConDetalles);
+router.patch('/:id_venta/pagado', ventasController.actualizarEstadoPagado);
 
 module.exports = router;

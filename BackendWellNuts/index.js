@@ -5,11 +5,12 @@ const ventasRoutes = require('./routes/ventas');
 const productosRoutes = require('./routes/productos'); 
 const clientesRoutes = require('./routes/clientes'); 
 const detalleRoutes = require('./routes/detalleVenta'); 
+const variedadesRoutes = require('./routes/variedadProducto');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors({
-  origin: 'http://localhost:5173', // ⬅️ permite solo al frontend acceder
+  origin: 'http://localhost:5173', 
   credentials: true
 }));
 
@@ -20,6 +21,7 @@ app.use('/api/ventas', ventasRoutes);
 app.use('/api/productos', productosRoutes);
 app.use('/api/clientes', clientesRoutes); 
 app.use('/api/detalleVentas', detalleRoutes);
+app.use('/api/variedadProducto', variedadesRoutes);
 
 app.get('/', (req, res) => {
   res.send('API WellNuts funcionando correctamente');

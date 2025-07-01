@@ -92,7 +92,7 @@ const Clientes = () => {
         <>
           <div className="d-flex align-items-center mb-3">
             <h2>Clientes</h2>
-            <img src='public/profile.png' style={{ width: '107px', height: '107px' }} />
+            <img src='/profile.png' style={{ width: '107px', height: '107px' }} />
           </div>
           <div className="d-flex align-items-center mb-3">
             <input

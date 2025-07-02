@@ -78,10 +78,10 @@ const Variedades = ({ onVolver }) => {
               {errors.nombre_variedad && <p className="text-danger">{errors.nombre_variedad.message}</p>}
             </div>
             <div className="mb-3">
-              <label className="form-label">Stock (gramos)</label>
+              <label className="form-label">Stock</label>
               <input type="number" className="form-control" {...register('stock_gramos', { 
                 required: 'Campo requerido', 
-                min: {value:1, message: 'El stock debe ser positivo'} })} />
+                min: {value:0, message: 'El stock debe ser positivo'} })} />
               {errors.stock_gramos && <p className="text-danger">{errors.stock_gramos.message}</p>}
             </div>
             <button type="submit" className="btn btn-primary me-2">Guardar</button>
@@ -95,7 +95,7 @@ const Variedades = ({ onVolver }) => {
             <button className="btn btn-secondary" onClick={onVolver}>Volver a Productos</button>
           </div>
           <button className="btn btn-success mb-3" onClick={() => setModoFormulario('crear')}>Agregar Variedad</button>
-          <table className="table table-bordered">
+          <table className="table-glass">
             <thead className="table-dark">
               <tr>
                 <th>Nombre</th>

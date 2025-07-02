@@ -1,0 +1,204 @@
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background: black; /* Fondo negro unificado */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #e4e6eb;
+}
+
+
+.container {
+  width: 100%;
+  max-width: none;
+  padding: 2rem 3rem;
+}
+
+/* === GLASS CONTAINER === */
+.glass-container {
+  background: rgba(36, 41, 56, 0.8);
+  border-radius: 1.25rem;
+  padding: 2rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* === TABLA ESTILO MODERNO === */
+.table-glass {
+  width: 100%;
+  border-collapse: collapse;
+  background: rgba(36, 41, 56, 0.5);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 1rem;
+}
+
+.table-glass thead {
+  background: rgba(255, 255, 255, 0.07);
+  color: #f1f5f9;
+  font-weight: bold;
+}
+
+.table-glass th, .table-glass td {
+  padding: 0.85rem 1.2rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  color: #e2e8f0;
+}
+
+.table-glass tbody tr:hover {
+  background-color: rgba(148, 163, 184, 0.1);
+}
+
+/* === BOTONES DE ACCIONES === */
+.btn-action {
+  border-radius: 20px;
+  font-size: 0.85rem;
+  padding: 6px 14px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-edit {
+  background-color: #facc15;
+  color: #1e1e1e;
+}
+
+.btn-edit:hover {
+  background-color: #eab308;
+}
+
+.btn-delete {
+  background-color: #ef4444;
+  color: white;
+}
+
+.btn-delete:hover {
+  background-color: #dc2626;
+}
+
+.btn-create {
+  background-color: #10b981;
+  color: white;
+  border-radius: 0.6rem;
+  padding: 0.6rem 1rem;
+  font-weight: 600;
+  transition: background 0.2s ease;
+  border: none;
+}
+
+.btn-create:hover {
+  background-color: #059669;
+}
+
+/* === BUSCADOR === */
+.search-input {
+  background-color: #1f2937;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  color: #f9fafb;
+  width: 250px;
+}
+
+.search-input::placeholder {
+  color: rgba(229, 231, 235, 0.6);
+}
+
+/* === CABECERAS Y TÍTULOS === */
+.title-glass {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #f1f5f9; /* o blanco puro: #ffffff */
+  margin-bottom: 1rem;
+}
+
+/* === FORMULARIO === */
+.form-label {
+  color: #cbd5e1;
+  font-weight: 500;
+}
+
+.form-control, .form-select {
+  background-color: rgba(51, 65, 85, 0.4);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 0.5rem;
+}
+
+.form-control::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* === NAVBAR === */
+.glass-navbar {
+  background: rgba(17, 24, 39, 0.7);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.nav-link-glass {
+  color: #e2e8f0 !important;
+  margin-right: 1rem;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.nav-link-glass:hover {
+  color: #a5b4fc !important;
+}
+
+/* === TARJETAS DE MÉTRICAS === */
+.metric-card {
+  background: rgba(36, 41, 56, 0.9);
+  padding: 1.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  color: #e2e8f0;
+}
+
+.metric-title {
+  font-size: 0.95rem;
+  color: #94a3b8;
+  margin-bottom: 0.3rem;
+}
+
+.metric-value {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: #f1f5f9;
+}
+
+.metric-change {
+  font-size: 0.9rem;
+  margin-top: 0.3rem;
+}
+
+.metric-change.positive {
+  color: #22c55e;
+}
+
+/* === TARJETA DE GRÁFICO === */
+.chart-card {
+  background: rgba(36, 41, 56, 0.9);
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  color: #e2e8f0;
+  margin-bottom: 2rem;
+}
+
+.chart-placeholder {
+  height: 200px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9ca3af;
+  font-style: italic;
+}

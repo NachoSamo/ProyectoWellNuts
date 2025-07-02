@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import api from '../services/api';
+import '../styles/glass.css'; // Asegurate de que este sea el nombre del nuevo CSS unificado
 
 const Clientes = () => {
   const [clientes, setClientes] = useState([]);
-  const [modoFormulario, setModoFormulario] = useState(null); // 'crear' o 'editar'
+  const [modoFormulario, setModoFormulario] = useState(null);
   const [clienteEditando, setClienteEditando] = useState(null);
   const [filtro, setFiltro] = useState('');
 
@@ -26,19 +27,14 @@ const Clientes = () => {
   };
 
   const onSubmit = data => {
-    if (modoFormulario === 'crear') {
-      api.post('/clientes', data)
-        .then(() => {
-          cargarClientes();
-          cancelarFormulario();
-        });
-    } else if (modoFormulario === 'editar') {
-      api.put(`/clientes/${clienteEditando.id_cliente}`, data)
-        .then(() => {
-          cargarClientes();
-          cancelarFormulario();
-        });
-    }
+    const metodo = modoFormulario === 'crear'
+      ? api.post('/clientes', data)
+      : api.put(`/clientes/${clienteEditando.id_cliente}`, data);
+
+    metodo.then(() => {
+      cargarClientes();
+      cancelarFormulario();
+    });
   };
 
   const editarCliente = cliente => {
@@ -59,77 +55,83 @@ const Clientes = () => {
     setClienteEditando(null);
     reset();
   };
+
   const clientesFiltrados = clientes.filter(p =>
     p.nombre.toLowerCase().includes(filtro.toLowerCase())
   );
 
   return (
-    <div className="container mt-4">
-      {modoFormulario ? (
-        <>
-          <h2>{modoFormulario === 'crear' ? 'Agregar Cliente' : 'Editar Cliente'}</h2>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="mb-3">
-              <label className="form-label">Nombre</label>
-              <input type="text" className="form-control" {...register('nombre', { required: 'Nombre requerido', maxLength: { value: 50, message: 'Máx. 50 caracteres' } })} />
-              {errors.nombre && <p className="text-danger">{errors.nombre.message}</p>}
+    <div className="container">
+      <div className="glass-container">
+        {modoFormulario ? (
+          <>
+            <h2>{modoFormulario === 'crear' ? 'Agregar Cliente' : 'Editar Cliente'}</h2>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div className="mb-3">
+                <label className="form-label">Nombre</label>
+                <input type="text" className="form-control" {...register('nombre', { required: 'Nombre requerido', maxLength: 50 })} />
+                {errors.nombre && <p className="text-danger">{errors.nombre.message}</p>}
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Apellido</label>
+                <input type="text" className="form-control" {...register('apellido', { required: 'Apellido requerido', maxLength: 50 })} />
+                {errors.apellido && <p className="text-danger">{errors.apellido.message}</p>}
+              </div>
+              <div className="mb-3">
+                <label className="form-label">Teléfono</label>
+                <input type="text" className="form-control" {...register('telefono', { maxLength: 20 })} />
+                {errors.telefono && <p className="text-danger">{errors.telefono.message}</p>}
+              </div>
+              <button type="submit" className="btn btn-primary me-2">Guardar</button>
+              <button type="button" className="btn btn-secondary" onClick={cancelarFormulario}>Cancelar</button>
+            </form>
+          </>
+        ) : (
+          <>
+            <div className="title-glass d-flex align-items-center justify-content-between mb-4">
+              <h2>Clientes</h2>
+              <img src="/profile.png" alt="perfil" style={{ width: '107px', height: '107px' }} />
             </div>
-            <div className="mb-3">
-              <label className="form-label">Apellido</label>
-              <input type="text" className="form-control" {...register('apellido', { required: 'Apellido requerido', maxLength: { value: 50, message: 'Máx. 50 caracteres' } })} />
-              {errors.apellido && <p className="text-danger">{errors.apellido.message}</p>}
+
+            <div className="d-flex align-items-center mb-3 gap-2">
+              <input
+                className="search-input"
+                placeholder="Buscar cliente"
+                value={filtro}
+                onChange={e => setFiltro(e.target.value)}
+              />
+              <button className="btn-create" onClick={() => setModoFormulario('crear')}>
+                Agregar Cliente
+              </button>
             </div>
-            <div className="mb-3">
-              <label className="form-label">Teléfono</label>
-              <input type="text" className="form-control" {...register('telefono', { maxLength: { value: 20, message: 'Máx. 20 caracteres' } })} />
-              {errors.telefono && <p className="text-danger">{errors.telefono.message}</p>}
-            </div>
-            <button type="submit" className="btn btn-primary me-2">Guardar</button>
-            <button type="button" className="btn btn-secondary" onClick={cancelarFormulario}>Cancelar</button>
-          </form>
-        </>
-      ) : (
-        <>
-          <div className="d-flex align-items-center mb-3">
-            <h2>Clientes</h2>
-            <img src='/profile.png' style={{ width: '107px', height: '107px' }} />
-          </div>
-          <div className="d-flex align-items-center mb-3">
-            <input
-              className="form-control w-25 me-2"
-              placeholder="Buscar cliente"
-              value={filtro}
-              onChange={e => setFiltro(e.target.value)}
-            />
-            <button className="btn btn-success" onClick={() => setModoFormulario('crear')}>Agregar Cliente</button>
-          </div>
-          <table className="table table-bordered">
-            <thead className="table-dark">
-              <tr>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Teléfono</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {clientesFiltrados.map(cliente => (
-                <tr key={cliente.id_cliente}>
-                  <td>{cliente.nombre}</td>
-                  <td>{cliente.apellido}</td>
-                  <td>{cliente.telefono}</td>
-                  <td>
-                    <button className="btn btn-warning btn-sm me-2" onClick={() => editarCliente(cliente)}>Editar</button>
-                    <button className="btn btn-danger btn-sm" onClick={() => eliminarCliente(cliente.id_cliente)}>Eliminar</button>
-                  </td>
+
+            <table className="table-glass">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Apellido</th>
+                  <th>Teléfono</th>
+                  <th>Acciones</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </>
-      )
-      }
-    </div >
+              </thead>
+              <tbody>
+                {clientesFiltrados.map(cliente => (
+                  <tr key={cliente.id_cliente}>
+                    <td>{cliente.nombre}</td>
+                    <td>{cliente.apellido}</td>
+                    <td>{cliente.telefono}</td>
+                    <td>
+                      <button className="btn-action btn-edit me-2" onClick={() => editarCliente(cliente)}>Editar</button>
+                      <button className="btn-action btn-delete" onClick={() => eliminarCliente(cliente.id_cliente)}>Eliminar</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </>
+        )}
+      </div>
+    </div>
   );
 };
 

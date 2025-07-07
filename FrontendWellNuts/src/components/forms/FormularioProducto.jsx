@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { useForm } from 'react-hook-form'; 
+import { useForm } from 'react-hook-form';
 /**
  * Componente para el formulario de creación o edición de productos.
  * Recibe props para manejar el estado del formulario y las acciones.
@@ -24,92 +24,89 @@ const FormularioProducto = ({
 }) => {
   return (
     <>
-      {/* Título del formulario que cambia según el modo */}
-      <h2 className="title-glass">
-        {modoFormulario === 'crear' ? 'Agregar Producto' : 'Editar Producto'}
-      </h2>
-      {/* Formulario principal */}
-      <form onSubmit={handleSubmit(onSubmit)}>
-        {/* Campo Nombre del Producto */}
-        <div className="mb-3">
-          <label className="form-label">Nombre</label>
-          <input
-            className="form-control"
-            {...register('nombre_producto', {
-              required: 'Campo requerido',
-              maxLength: { value: 100, message: 'Máx. 100 caracteres' }
-            })}
-          />
-          {/* Mostrar errores de validación si existen */}
-          {errors.nombre_producto && <p className="text-danger">{errors.nombre_producto.message}</p>}
-        </div>
+      <div className='form-glass-container'>
+        {/* Título del formulario que cambia según el modo */}
+        <h2 className="title-glass">
+          {modoFormulario === 'crear' ? 'Agregar Producto' : 'Editar Producto'}
+        </h2>
+        {/* Formulario principal */}
+        <form onSubmit={handleSubmit(onSubmit)}>
+          {/* Campo Nombre del Producto */}
+          <div className="form-row mb-3">
+            <label className="form-label">Nombre</label>
+            <input
+              className="search-input"
+              {...register('nombre_producto', {
+                required: 'Campo requerido',
+                maxLength: { value: 100, message: 'Máx. 100 caracteres' }
+              })}
+            />
+            {errors.nombre_producto && <p className="text-danger">{errors.nombre_producto.message}</p>}
+          </div>
 
-        {/* Campo Precio Proveedor */}
-        <div className="mb-3">
-          <label className="form-label">Precio proveedor</label>
-          <input
-            type="number"
-            step="0.01"
-            className="form-control"
-            {...register('precio_proveedor', {
-              required: 'Campo requerido',
-              min: { value: 0.01, message: 'Debe ser positivo' }
-            })}
-          />
-          {errors.precio_proveedor && <p className="text-danger">{errors.precio_proveedor.message}</p>}
-        </div>
+          {/* Campo Precio Proveedor */}
+          <div className="form-row mb-3">
+            <label className="form-label">Precio proveedor</label>
+            <input
+              type="number"
+              className="search-input"
+              {...register('precio_proveedor', {
+                required: 'Campo requerido',
+                min: { value: 0.01, message: 'Debe ser positivo' }
+              })}
+            />
+            {errors.precio_proveedor && <p className="text-danger">{errors.precio_proveedor.message}</p>}
+          </div>
 
-        {/* Campo Precio Actual */}
-        <div className="mb-3">
-          <label className="form-label">Precio actual</label>
-          <input
-            type="number"
-            step="0.01"
-            className="form-control"
-            {...register('precio_actual', {
-              required: 'Campo requerido',
-              min: { value: 0.01, message: 'Debe ser positivo' }
-            })}
-          />
-          {errors.precio_actual && <p className="text-danger">{errors.precio_actual.message}</p>}
-        </div>
+          {/* Campo Precio Actual */}
+          <div className="form-row mb-3">
+            <label className="form-label">Precio actual</label>
+            <input
+              type="number"
+              className="search-input"
+              {...register('precio_actual', {
+                required: 'Campo requerido',
+                min: { value: 0.01, message: 'Debe ser positivo' }
+              })}
+            />
+            {errors.precio_actual && <p className="text-danger">{errors.precio_actual.message}</p>}
+          </div>
 
-        {/* Campo Tamaño en Gramos */}
-        <div className="mb-3">
-          <label className="form-label">Tamaño</label>
-          <input
-            type="number"
-            className="form-control"
-            {...register('tamaño_gramos', {
-              required: 'Campo requerido',
-              min: { value: 1, message: 'Debe ser positivo' }
-            })}
-          />
-          {errors.tamaño_gramos && <p className="text-danger">{errors.tamaño_gramos.message}</p>}
-        </div>
+          {/* Campo Tamaño en Gramos */}
+          <div className="form-row mb-3">
+            <label className="form-label">Tamaño</label>
+            <input
+              type="number"
+              className="search-input"
+              {...register('tamaño_gramos', {
+                required: 'Campo requerido',
+                min: { value: 1, message: 'Debe ser positivo' }
+              })}
+            />
+            {errors.tamaño_gramos && <p className="text-danger">{errors.tamaño_gramos.message}</p>}
+          </div>
 
-        {/* Campo Variedad (Dropdown) */}
-        <div className="mb-3">
-          <label className="form-label">Variedad</label>
-          <select
-            className="form-select"
-            {...register('id_variedad', { required: 'Campo requerido' })}
-          >
-            <option value="">Seleccione una variedad</option>
-            {/* Mapear las variedades para crear las opciones del select */}
-            {variedades.map(v => (
-              <option key={v.id_variedad} value={v.id_variedad}>
-                {v.nombre_variedad}
-              </option>
-            ))}
-          </select>
-          {errors.id_variedad && <p className="text-danger">{errors.id_variedad.message}</p>}
-        </div>
-
-        {/* Botones de acción del formulario */}
-        <button type="submit" className="btn btn-primary me-2">Guardar</button>
-        <button type="button" className="btn btn-secondary" onClick={onCancel}>Cancelar</button>
-      </form>
+          {/* Campo Variedad (Dropdown) */}
+          <div className="form-row mb-3">
+            <label className="form-label">Variedad</label>
+            <select
+              className="search-input"
+              {...register('id_variedad', { required: 'Campo requerido' })}
+            >
+              <option value="">Seleccione una variedad</option>
+              {variedades.map(v => (
+                <option key={v.id_variedad} value={v.id_variedad}>
+                  {v.nombre_variedad}
+                </option>
+              ))}
+            </select>
+            {errors.id_variedad && <p className="text-danger">{errors.id_variedad.message}</p>}
+          </div>
+          {/* Botones de acción del formulario */}
+          <button type="submit" className="btn btn-primary me-2">Guardar</button>
+          <button type="button" className="btn btn-secondary" onClick={onCancel}>Cancelar</button>
+        </form>
+      </div>
     </>
   );
 };

@@ -67,26 +67,41 @@ const Variedades = ({ onVolver }) => {
     <div className="container mt-4">
       {modoFormulario ? (
         <>
-          <h2>{modoFormulario === 'crear' ? 'Agregar Variedad' : 'Editar Variedad'}</h2>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="mb-3">
-              <label className="form-label">Nombre de variedad</label>
-              <input className="form-control" {...register('nombre_variedad', { 
-                required: 'Campo requerido', 
-                maxLength: {value: 50, message: 'Máximo 50 caracteres'}, 
-                minLength: {value:2, message: 'Mínimo 2 caracteres' }})} />
-              {errors.nombre_variedad && <p className="text-danger">{errors.nombre_variedad.message}</p>}
-            </div>
-            <div className="mb-3">
-              <label className="form-label">Stock</label>
-              <input type="number" className="form-control" {...register('stock_gramos', { 
-                required: 'Campo requerido', 
-                min: {value:0, message: 'El stock debe ser positivo'} })} />
-              {errors.stock_gramos && <p className="text-danger">{errors.stock_gramos.message}</p>}
-            </div>
-            <button type="submit" className="btn btn-primary me-2">Guardar</button>
-            <button type="button" className="btn btn-secondary" onClick={cancelarFormulario}>Cancelar</button>
-          </form>
+          <div className='form-glass-container'>
+            <h2>{modoFormulario === 'crear' ? 'Agregar Variedad' : 'Editar Variedad'}</h2>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div className="form-row mb-3">
+                <label className="form-label">Nombre de variedad</label>
+                <input
+                  className="search-input"
+                  {...register('nombre_variedad', {
+                    required: 'Campo requerido',
+                    maxLength: { value: 50, message: 'Máximo 50 caracteres' },
+                    minLength: { value: 2, message: 'Mínimo 2 caracteres' }
+                  })}
+                />
+                {errors.nombre_variedad && (
+                  <p className="text-danger">{errors.nombre_variedad.message}</p>
+                )}
+              </div>
+              <div className="form-row mb-3">
+                <label className="form-label">Stock</label>
+                <input
+                  type="number"
+                  className="search-input"
+                  {...register('stock_gramos', {
+                    required: 'Campo requerido',
+                    min: { value: 0, message: 'El stock debe ser positivo' }
+                  })}
+                />
+                {errors.stock_gramos && (
+                  <p className="text-danger">{errors.stock_gramos.message}</p>
+                )}
+              </div>
+              <button type="submit" className="btn btn-primary me-2">Guardar</button>
+              <button type="button" className="btn btn-secondary" onClick={cancelarFormulario}>Cancelar</button>
+            </form>
+          </div>
         </>
       ) : (
         <>
@@ -99,7 +114,7 @@ const Variedades = ({ onVolver }) => {
             <thead className="table-dark">
               <tr>
                 <th>Nombre</th>
-                <th>Stock (g)</th>
+                <th>Stock</th>
                 <th>Acciones</th>
               </tr>
             </thead>

@@ -5,6 +5,8 @@ const getVariedadById = (id) => api.get(`/variedadProducto/${id}`);
 const crearVariedad = (data) => api.post('/variedadProducto', data);
 const modificarVariedad = (id, data) => api.put(`/variedadProducto/${id}`, data);
 const eliminarVariedad = (id) => api.delete(`/variedadProducto/${id}`);
+const getStockVariedades = () => api.get('/variedadProducto/stock');
+
 
 export {
   getVariedades,
@@ -12,4 +14,5 @@ export {
   crearVariedad,
   modificarVariedad,
   eliminarVariedad,
+  getStockVariedades
 };

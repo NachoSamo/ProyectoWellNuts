@@ -1,9 +1,12 @@
-html, body, #root {
+html,
+body,
+#root {
   height: 100%;
   width: 100%;
   margin: 0;
   padding: 0;
-  background: black; /* Fondo negro unificado */
+  background: black;
+  /* Fondo negro unificado */
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: #e4e6eb;
 }
@@ -41,7 +44,8 @@ html, body, #root {
   font-weight: bold;
 }
 
-.table-glass th, .table-glass td {
+.table-glass th,
+.table-glass td {
   padding: 0.85rem 1.2rem;
   text-align: left;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
@@ -113,7 +117,8 @@ html, body, #root {
 .title-glass {
   font-size: 1.8rem;
   font-weight: 600;
-  color: #f1f5f9; /* o blanco puro: #ffffff */
+  color: #f1f5f9;
+  /* o blanco puro: #ffffff */
   margin-bottom: 1rem;
 }
 
@@ -123,7 +128,8 @@ html, body, #root {
   font-weight: 500;
 }
 
-.form-control, .form-select {
+.form-control,
+.form-select {
   background-color: rgba(51, 65, 85, 0.4);
   color: white;
   border: 1px solid rgba(255, 255, 255, 0.15);
@@ -201,4 +207,139 @@ html, body, #root {
   justify-content: center;
   color: #9ca3af;
   font-style: italic;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  color: black;
+  /* Asegura que el texto sea visible */
+}
+
+.modal-actions {
+  margin-top: 15px;
+}
+
+.form-glass-container {
+  max-width: 600px; /* O el ancho que prefieras */
+  margin: 0 auto;
+  background: rgba(36, 41, 56, 0.85);
+  border-radius: 1.25rem;
+  padding: 2rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.form-row label {
+  min-width: 120px;
+  margin-bottom: 0;
+  text-align: right;
+}
+
+.form-row .search-input,
+.form-row select {
+  flex: 1;
+}
+
+.venta-form-card {
+  max-width: 900px;
+  margin: 0 auto;
+  background: rgba(36, 41, 56, 0.9);
+  padding: 2rem;
+  border-radius: 1.25rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(12px);
+}
+
+.venta-form-card h4, .venta-form-card h5 {
+  color: #f1f5f9;
+}
+
+.venta-form-card label {
+  font-weight: 500;
+  color: #cbd5e1;
+  margin-bottom: 0.3rem;
+  display: block;
+}
+
+.venta-form-card .form-check-label {
+  font-size: 1.1rem;
+  color: #e2e8f0;
+}
+
+.venta-form-card .form-check-input {
+  width: 20px;
+  height: 20px;
+  background-color: #1f2937;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+/* === GRÁFICOS === */
+.graph-card {
+  background: rgba(17, 24, 39, 0.85);
+  border-radius: 1.25rem;
+  padding: 2rem;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: #e2e8f0;
+  margin-bottom: 2rem;
+}
+
+.graph-card:hover {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+}
+
+.graph-card h6 {
+  color: #94a3b8;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.05em;
+}
+
+.graph-card h3 {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #f1f5f9;
+  margin-bottom: 0.25rem;
+}
+
+.graph-card p {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.graph-card .positive {
+  color: #22c55e;
+}
+
+.graph-card .negative {
+  color: #ef4444;
 }

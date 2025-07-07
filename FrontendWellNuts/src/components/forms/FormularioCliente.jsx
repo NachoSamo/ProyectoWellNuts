@@ -24,16 +24,17 @@ const FormularioClientes = ({
 }) => {
   return (
     <>
+    <div className='form-glass-container'>
       {/* Título del formulario que cambia según el modo */}
       <h2>{modoFormulario === 'crear' ? 'Agregar Cliente' : 'Editar Cliente'}</h2>
       {/* Formulario principal */}
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* Campo Nombre */}
-        <div className="mb-3">
+        <div style={{ marginTop: '2rem' }} className="d-flex align-items-center mb-3 gap-2">
           <label className="form-label">Nombre</label>
           <input
             type="text"
-            className="form-control"
+            className="search-input"
             {...register('nombre', { required: 'Nombre requerido', maxLength: 50 })}
           />
           {/* Mostrar errores de validación si existen */}
@@ -41,22 +42,22 @@ const FormularioClientes = ({
         </div>
 
         {/* Campo Apellido */}
-        <div className="mb-3">
+        <div className="d-flex align-items-center mb-3 gap-2">
           <label className="form-label">Apellido</label>
           <input
             type="text"
-            className="form-control"
+            className="search-input"
             {...register('apellido', { required: 'Apellido requerido', maxLength: 50 })}
           />
           {errors.apellido && <p className="text-danger">{errors.apellido.message}</p>}
         </div>
 
         {/* Campo Teléfono */}
-        <div className="mb-3">
+        <div className="d-flex align-items-center mb-4 gap-2">
           <label className="form-label">Teléfono</label>
           <input
             type="text"
-            className="form-control"
+            className="search-input"
             {...register('telefono', { maxLength: 20 })}
           />
           {errors.telefono && <p className="text-danger">{errors.telefono.message}</p>}
@@ -66,6 +67,7 @@ const FormularioClientes = ({
         <button type="submit" className="btn btn-primary me-2">Guardar</button>
         <button type="button" className="btn btn-secondary" onClick={onCancel}>Cancelar</button>
       </form>
+    </div>
     </>
   );
 };

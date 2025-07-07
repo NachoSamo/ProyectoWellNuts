@@ -9,6 +9,7 @@ const eliminarVenta = (id) => api.delete(`/ventas/${id}`);
 const cambiarEstadoPagado = (id, pagado) => api.put(`/ventas/${id}`, { pagado });
 const crearVentaConDetalles = (data) => api.post('/ventas/completa', data);
 const actualizarEstadoPagado = (id_venta) => api.patch(`/ventas/${id_venta}/pagado`);
+const getVentasMensuales = () => api.get('/ventas/mensual');
 
 
 
@@ -20,5 +21,6 @@ export {
   eliminarVenta,
   cambiarEstadoPagado, 
   crearVentaConDetalles,
-  actualizarEstadoPagado
+  actualizarEstadoPagado,
+  getVentasMensuales 
 };

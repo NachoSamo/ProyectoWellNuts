@@ -111,9 +111,7 @@ const Clientes = () => {
   return (
     <div className="container">
       <div className="glass-container">
-        {/* Renderizado condicional según el estado de la UI */}
         {modoFormulario ? (
-          // Si se está en modo formulario (crear o editar), mostrar el FormularioClientes
           <FormularioClientes
             modoFormulario={modoFormulario}
             onSubmit={onSubmit}
@@ -123,12 +121,9 @@ const Clientes = () => {
             errors={errors}
           />
         ) : (
-          // Si no se está en modo formulario, mostrar la tabla de clientes
           <>
-            {/* Encabezado de la sección de clientes */}
             <div className="title-glass d-flex align-items-center justify-content-between mb-4">
               <h2>Clientes</h2>
-              {/* Imagen decorativa */}
               <img src="/profile.png" alt="perfil" style={{ width: '107px', height: '107px' }} />
             </div>
 
@@ -188,36 +183,6 @@ const Clientes = () => {
             </div>
           </div>
         )}
-
-        {/* Estilos CSS para el modal de confirmación (pueden ir en un archivo CSS global si se usan en varios lugares) */}
-        <style>
-          {`
-          .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.7);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-          }
-
-          .modal-content {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            text-align: center;
-            color: black; /* Asegura que el texto sea visible */
-          }
-
-          .modal-actions {
-            margin-top: 15px;
-          }
-          `}
-        </style>
       </div>
     </div>
   );

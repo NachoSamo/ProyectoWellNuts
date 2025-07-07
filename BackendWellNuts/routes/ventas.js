@@ -4,6 +4,8 @@ const ventasController = require('../controllers/ventasController');
 
 router.get('/mensual', ventasController.getVentasMensuales);
 router.get('/', ventasController.getVentas);
+router.get('/ranking/clientes', ventasController.getVentasPorCliente);
+router.get('/ranking/cliente-mes', ventasController.getMejorClienteDelMes);
 router.get('/:id', ventasController.getVentaById);
 router.delete('/:id', ventasController.eliminarVenta);
 router.post('/completa', ventasController.crearVentaConDetalles);

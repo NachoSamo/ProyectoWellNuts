@@ -231,3 +231,49 @@ exports.getVentasMensuales = async (req, res) => {
     });
   }
 };
+
+// Obtener el total de ventas por cliente
+exports.getVentasPorCliente = async (req, res) => {
+  try {
+    const pool = await poolPromise;
+    const result = await pool.request().query(`
+      SELECT 
+        C.id_cliente,
+        C.nombre + ' ' + C.apellido AS cliente,
+        SUM(V.precio_total) AS total_ventas
+      FROM Ventas V
+      INNER JOIN Clientes C ON V.id_cliente = C.id_cliente
+      GROUP BY C.id_cliente, C.nombre, C.apellido
+      ORDER BY total_ventas DESC;
+    `);
+
+    res.json(result.recordset);
+  } catch (error) {
+    console.error('❌ Error al obtener ventas por cliente:', error);
+    res.status(500).send('Error en servidor');
+  }
+};
+
+// Obtener el cliente que más compró en el mes actual
+exports.getMejorClienteDelMes = async (req, res) => {
+  try {
+    const pool = await poolPromise;
+    const result = await pool.request().query(`
+      SELECT TOP 1 
+        C.id_cliente,
+        C.nombre + ' ' + C.apellido AS cliente,
+        SUM(V.precio_total) AS total_mes
+      FROM Ventas V
+      INNER JOIN Clientes C ON V.id_cliente = C.id_cliente
+      WHERE MONTH(V.fecha) = MONTH(GETDATE()) AND YEAR(V.fecha) = YEAR(GETDATE())
+      GROUP BY C.id_cliente, C.nombre, C.apellido
+      ORDER BY total_mes DESC;
+    `);
+
+    res.json(result.recordset[0] || {});
+  } catch (error) {
+    console.error('❌ Error al obtener mejor cliente del mes:', error);
+    res.status(500).send('Error en servidor');
+  }
+};
+

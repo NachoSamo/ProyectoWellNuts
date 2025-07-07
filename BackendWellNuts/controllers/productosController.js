@@ -119,3 +119,39 @@ exports.eliminarProducto = async (req, res) => {
     res.status(500).send('Error en servidor');
   }
 };
+
+exports.getRentabilidadProductos = async (req, res) => {
+  try {
+    const pool = await poolPromise;
+    const result = await pool.request().query(`
+      SELECT 
+        P.nombre_producto,
+        P.precio_proveedor,
+        P.precio_actual,
+        P.tamaño_gramos
+      FROM Productos P
+      WHERE P.precio_proveedor IS NOT NULL 
+        AND P.precio_proveedor > 0
+        AND P.precio_actual IS NOT NULL
+    `);
+
+    const productos = result.recordset.map(p => {
+      const nombre_presentacion = `${p.nombre_producto} (${p.tamaño_gramos}g)`;
+      const ganancia = p.precio_actual - p.precio_proveedor;
+      const porcentaje_ganancia = parseFloat(((ganancia * 100) / p.precio_proveedor).toFixed(2));
+
+      return {
+        nombre_presentacion,
+        precio_proveedor: p.precio_proveedor,
+        precio_actual: p.precio_actual,
+        ganancia,
+        porcentaje_ganancia
+      };
+    });
+
+    res.json(productos);
+  } catch (error) {
+    console.error('❌ Error al obtener rentabilidad de productos:', error);
+    res.status(500).send('Error en servidor');
+  }
+};

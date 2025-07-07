@@ -155,7 +155,6 @@ exports.crearVentaConDetalles = async (req, res) => {
   }
 };
 
-
 exports.actualizarEstadoPagado = async (req, res) => {
   const { id_venta } = req.params;
 
@@ -208,5 +207,27 @@ exports.getDetallesPorVenta = async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).send('Error al obtener detalles por venta');
+  }
+};
+
+exports.getVentasMensuales = async (req, res) => {
+  try {
+    const pool = await poolPromise;
+    const result = await pool.request().query(`
+      SELECT 
+        CONVERT(varchar(7), fecha, 120) AS mes,
+        SUM(precio_total) AS total
+      FROM Ventas
+      WHERE fecha IS NOT NULL
+      GROUP BY CONVERT(varchar(7), fecha, 120)
+      ORDER BY mes
+    `);
+
+    res.json(result.recordset);
+  } catch (error) {
+    console.error('🛑 ERROR en getVentasMensuales:', error); 
+    res.status(500).json({ 
+      error: 'Error en servidor',
+    });
   }
 };

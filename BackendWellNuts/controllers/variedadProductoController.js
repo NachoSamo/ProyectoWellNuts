@@ -90,3 +90,19 @@ exports.eliminarVariedad = async (req, res) => {
     res.status(500).send('Error en el servidor');
   }
 };
+
+exports.getStockPorVariedad = async (req, res) => {
+  try {
+    const pool = await poolPromise;
+    const result = await pool.request().query(`
+      SELECT 
+        nombre_variedad, 
+        stock_gramos 
+      FROM VariedadProducto
+    `);
+    res.json(result.recordset);
+  } catch (error) {
+    console.error("❌ Error al obtener stock por variedad:", error);
+    res.status(500).send("Error al obtener stock por variedad");
+  }
+};

@@ -1,5 +1,10 @@
 import api from './api';
 
+const obtenerRentabilidadProductos = async () => {
+  const res = await api.get('/productos/rentabilidad');
+  return res.data; 
+};
+
 const getProductos = () => api.get('/productos');
 const getProductoById = (id) => api.get(`/productos/${id}`);
 const crearProducto = (producto) => api.post('/productos', producto);
@@ -12,4 +17,5 @@ export {
   crearProducto,
   modificarProducto,
   eliminarProducto,
+  obtenerRentabilidadProductos
 };

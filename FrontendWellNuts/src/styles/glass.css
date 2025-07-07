@@ -343,3 +343,8 @@ body,
 .graph-card .negative {
   color: #ef4444;
 }
+
+.metric-change.warning {
+  color: #eab308;
+}
+

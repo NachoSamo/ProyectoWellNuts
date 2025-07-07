@@ -5,6 +5,8 @@ import React from "react";
 import VentaMensual from "../components/graphs/VentaMensual";
 import '../styles/glass.css'; // Asegúrate de que glass.css esté importado para que los estilos se apliquen
 import StockXVariedad from "../components/graphs/StockXVariedad";
+import IngresosXCostos from "../components/graphs/IngresosXCostos";
+import VentasXCliente from "../components/graphs/VentasXCliente";
 
 const Home = () => {
   return (
@@ -20,6 +22,12 @@ const Home = () => {
         </div>
         <div>
           <StockXVariedad />
+        </div>
+        <div> 
+          <IngresosXCostos />
+        </div>
+        <div>
+          <VentasXCliente />
         </div>
       </div>
     </div>

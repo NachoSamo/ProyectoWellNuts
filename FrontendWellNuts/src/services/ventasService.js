@@ -1,7 +1,9 @@
 import api from './api';
 
-
 const getVentas = () => api.get('/ventas');
+// Se cambia el endpoint para obtener todas las ventas por cliente, que se utilizará para el gráfico de pastel y para calcular el top histórico.
+const getTotalVentasPorCliente = () => api.get('/ventas/ranking/clientes');
+const getTopClienteMes = () => api.get('/ventas/ranking/cliente-mes');
 const getVentaById = (id) => api.get(`/ventas/${id}`);
 const crearVenta = (data) => api.post('/ventas', data);
 const modificarVenta = (id, data) => api.put(`/ventas/${id}`, data);
@@ -11,16 +13,17 @@ const crearVentaConDetalles = (data) => api.post('/ventas/completa', data);
 const actualizarEstadoPagado = (id_venta) => api.patch(`/ventas/${id_venta}/pagado`);
 const getVentasMensuales = () => api.get('/ventas/mensual');
 
-
-
 export {
   getVentas,
   getVentaById,
   crearVenta,
   modificarVenta,
   eliminarVenta,
-  cambiarEstadoPagado, 
+  cambiarEstadoPagado,
   crearVentaConDetalles,
   actualizarEstadoPagado,
-  getVentasMensuales 
+  getVentasMensuales,
+  // getTopClienteHistorico ya no se exporta directamente ya que se calculará en el frontend
+  getTopClienteMes,
+  getTotalVentasPorCliente // Ahora apunta a '/ventas/ranking/clientes'
 };

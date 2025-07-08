@@ -236,7 +236,8 @@ body,
 }
 
 .form-glass-container {
-  max-width: 600px; /* O el ancho que prefieras */
+  max-width: 600px;
+  /* O el ancho que prefieras */
   margin: 0 auto;
   background: rgba(36, 41, 56, 0.85);
   border-radius: 1.25rem;
@@ -279,7 +280,8 @@ body,
   backdrop-filter: blur(12px);
 }
 
-.venta-form-card h4, .venta-form-card h5 {
+.venta-form-card h4,
+.venta-form-card h5 {
   color: #f1f5f9;
 }
 
@@ -301,6 +303,7 @@ body,
   background-color: #1f2937;
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
+
 /* === GRÁFICOS === */
 .graph-card {
   background: rgba(17, 24, 39, 0.85);
@@ -347,4 +350,3 @@ body,
 .metric-change.warning {
   color: #eab308;
 }
-

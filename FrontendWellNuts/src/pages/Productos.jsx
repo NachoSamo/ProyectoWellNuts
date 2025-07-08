@@ -1,4 +1,3 @@
-// src/components/Productos.jsx
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
@@ -9,11 +8,10 @@ import {
 } from '../services/productosService';
 import { getVariedades } from '../services/variedadProductoService';
 import Variedades from '../components/Variedades';
-import FormularioProducto from '../components/forms/FormularioProducto'; // Importar el nuevo componente del formulario
+import FormularioProducto from '../components/forms/FormularioProducto';
 import '../styles/glass.css';
 
 const Productos = () => {
-  // Estados para la gestión de productos, variedades y UI
   const [productos, setProductos] = useState([]);
   const [variedades, setVariedades] = useState([]);
   const [modoFormulario, setModoFormulario] = useState(null); // 'crear', 'editar' o null

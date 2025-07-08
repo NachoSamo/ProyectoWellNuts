@@ -11,6 +11,10 @@ const Variedades = ({ onVolver }) => {
   const [variedades, setVariedades] = useState([]);
   const [modoFormulario, setModoFormulario] = useState(null);
   const [variedadEditando, setVariedadEditando] = useState(null);
+  const [showConfirmModal, setShowConfirmModal] = useState(false); // Estado para mostrar el modal de confirmación
+  const [VariedadIdToDelete, setVariedadIdToDelete] = useState(null); 
+
+
 
   const {
     register,
@@ -18,6 +22,26 @@ const Variedades = ({ onVolver }) => {
     reset,
     formState: { errors }
   } = useForm();
+
+  /**
+   * Maneja la eliminación de un producto después de la confirmación.
+   */
+  const eliminarVariedadHandler = () => {
+    if (VariedadIdToDelete) {
+      eliminarVariedad(VariedadIdToDelete)
+        .then(() => {
+          cargarVariedades(); // Recargar productos después de la eliminación
+          setShowConfirmModal(false); // Cerrar el modal
+          setVariedadIdToDelete(null); // Limpiar el ID
+        })
+        .catch(err => {
+          console.error('Error al eliminar producto:', err);
+          setShowConfirmModal(false); // Cerrar el modal incluso si hay error
+          setVariedadIdToDelete(null);
+        });
+    }
+  };
+
 
   useEffect(() => {
     cargarVariedades();
@@ -52,9 +76,8 @@ const Variedades = ({ onVolver }) => {
   };
 
   const eliminar = id => {
-    if (confirm('¿Eliminar esta variedad?')) {
-      eliminarVariedad(id).then(() => cargarVariedades());
-    }
+    setVariedadIdToDelete(id);
+    setShowConfirmModal(true);
   };
 
   const cancelarFormulario = () => {
@@ -131,6 +154,47 @@ const Variedades = ({ onVolver }) => {
               ))}
             </tbody>
           </table>
+          {/* Modal de confirmación para eliminar producto */}
+          {showConfirmModal && (
+            <div className="modal-overlay">
+              <div className="modal-content">
+                <p>¿Estás seguro de que quieres eliminar este producto?</p>
+                <div className="modal-actions">
+                  <button className="btn btn-danger me-2" onClick={eliminarVariedadHandler}>Eliminar</button>
+                  <button className="btn btn-secondary" onClick={() => setShowConfirmModal(false)}>Cancelar</button>
+                </div>
+              </div>
+            </div>
+          )}
+          <style>
+          {`
+          .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+          }
+
+          .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            color: black; /* Asegura que el texto sea visible */
+          }
+
+          .modal-actions {
+            margin-top: 15px;
+          }
+          `}
+        </style>
+
         </>
       )}
     </div>

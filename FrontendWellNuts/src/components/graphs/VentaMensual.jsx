@@ -94,9 +94,8 @@ const VentaMensual = () => {
           <div>
             <h5>Ventas por mes</h5>
             <h3>{formatCurrency(totalMes)}</h3>
-            <p className={variacion >= 0 ? 'positive' : 'negative'}>
-              {/* Texto modificado para mayor claridad */}
-              Variación con respecto al mes anterior {variacion >= 0 ? '+' : ''}{variacion}%
+            <p className={variacion >= 1 ? 'positive' : 'negative'}>
+              Variación con respecto al mes anterior {variacion >= 1 ? '+' : ''}{variacion}%
             </p>
           </div>
         </div>

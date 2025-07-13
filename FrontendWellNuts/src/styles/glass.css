@@ -188,7 +188,6 @@ body,
   color: #22c55e;
 }
 
-/* === TARJETA DE GRÁFICO === */
 .chart-card {
   background: rgba(36, 41, 56, 0.9);
   padding: 2rem;
@@ -196,6 +195,24 @@ body,
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
   color: #e2e8f0;
   margin-bottom: 2rem;
+}
+.chart-card .positive {
+  color: #22c55e; 
+}
+
+.chart-card .negative {
+  color: #ef4444; 
+}
+
+.chart-placeholder {
+  height: 200px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9ca3af;
+  font-style: italic;
 }
 
 .chart-placeholder {

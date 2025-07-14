@@ -2,13 +2,20 @@ html,
 body,
 #root {
   height: 100%;
+  --s: 200px;
+  --c1: #1d1d1d;
+  --c2: #727479;
+  --c3: #3c3c3c;
+
+  background:
+    repeating-conic-gradient(from 30deg, #0000 0 120deg, var(--c3) 0 50%) calc(var(--s)/2) calc(var(--s)*tan(30deg)/2),
+    repeating-conic-gradient(from 30deg, var(--c1) 0 60deg, var(--c2) 0 120deg, var(--c3) 0 50%);
+  background-size: var(--s) calc(var(--s)*tan(30deg));
   width: 100%;
   margin: 0;
   padding: 0;
-  background: black;
-  /* Fondo negro unificado */
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #e4e6eb;
+
 }
 
 
@@ -196,12 +203,13 @@ body,
   color: #e2e8f0;
   margin-bottom: 2rem;
 }
+
 .chart-card .positive {
-  color: #22c55e; 
+  color: #22c55e;
 }
 
 .chart-card .negative {
-  color: #ef4444; 
+  color: #ef4444;
 }
 
 .chart-placeholder {

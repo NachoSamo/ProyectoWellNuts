@@ -1,0 +1,63 @@
+/* Wrapper para centrar el formulario en medio de la pantalla */
+.login-page-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh; /* Ocupa toda la altura de la vista */
+  padding: 1rem;
+}
+
+/* Contenedor específico para el formulario, hereda el estilo de .glass-container */
+.login-form-container {
+  width: 100%;
+  max-width: 420px; /* Ancho ideal para un formulario de login */
+  padding: 2.5rem;
+}
+
+/* Estilo para los mensajes de error, consistente con tu app */
+.error-msg {
+  color: #ef4444; /* Rojo desde tu glass.css */
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  padding-left: 0.25rem;
+}
+
+/* Estilo para el mensaje de éxito en el registro */
+.success-msg {
+  color: #22c55e;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* Estilo para el texto y el enlace que alterna las vistas */
+.toggle-text {
+  color: #cbd5e1;
+}
+
+.toggle-link {
+  color: #a5b4fc; /* Color de enlace atractivo */
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.toggle-link:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+/* Asegurar que el botón principal use el estilo .btn-create y se adapte */
+.login-form-container .btn-create {
+    width: 100%;
+    margin-top: 1rem;
+    padding: 0.75rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+/* Ajuste para que los inputs con la clase .search-input ocupen todo el ancho */
+.login-form-container .search-input {
+  width: 100%;
+}

@@ -245,7 +245,6 @@ body,
   border-radius: 8px;
   text-align: center;
   color: black;
-  /* Asegura que el texto sea visible */
 }
 
 .modal-actions {
@@ -254,7 +253,6 @@ body,
 
 .form-glass-container {
   max-width: 600px;
-  /* O el ancho que prefieras */
   margin: 0 auto;
   background: rgba(36, 41, 56, 0.85);
   border-radius: 1.25rem;

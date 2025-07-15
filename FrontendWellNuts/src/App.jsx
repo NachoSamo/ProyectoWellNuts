@@ -6,6 +6,7 @@ import RutaProtegida from './components/RutaProtegida';
 import Productos from './pages/Productos';
 import Ventas from './pages/Ventas';
 import Clientes from './pages/Clientes';
+import Perfil from './pages/Perfil';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
                 <Route path="/productos" element={<Productos />} />
                 <Route path="/clientes" element={<Clientes />} />
                 <Route path="/ventas" element={<Ventas />} />
+                <Route path="/perfil" element={<Perfil />} />
               </Routes>
             </Layout>
           </RutaProtegida>

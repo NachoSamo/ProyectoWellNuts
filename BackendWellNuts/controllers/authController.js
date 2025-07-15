@@ -2,38 +2,41 @@ const sql = require('mssql');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-// 1. LA PRIMERA CORRECCIÓN: Desestructura para obtener 'poolPromise' directamente.
 const { poolPromise } = require('../data/database');
 
-// Función para registrar un nuevo usuario
 exports.register = async (req, res) => {
-    const { nombre_usuario, contraseña } = req.body;
+    const { nombre_usuario, contraseña, nombre, apellido, email } = req.body;
 
-    if (!nombre_usuario || !contraseña) {
-        return res.status(400).json({ msg: 'Por favor, ingrese un nombre de usuario y una contraseña.' });
+    if (!nombre_usuario || !contraseña || !nombre || !apellido || !email) {
+        return res.status(400).json({ msg: 'Por favor, complete todos los campos requeridos.' });
     }
 
     try {
-        // 2. LA CORRECCIÓN CLAVE: Espera a que la promesa del pool se resuelva.
         const pool = await poolPromise;
 
         const salt = await bcrypt.genSalt(10);
         const contraseña_hash = await bcrypt.hash(contraseña, salt);
-        const rol = 'usuario';
+        const rol = 'usuario'; 
 
-        // Ahora 'pool' es el objeto de conexión correcto y .request() funcionará.
         await pool.request()
             .input('nombre_usuario', sql.VarChar(50), nombre_usuario)
             .input('contraseña_hash', sql.VarChar(255), contraseña_hash)
             .input('rol', sql.VarChar(20), rol)
-            .query('INSERT INTO dbo.Usuarios (nombre_usuario, contraseña_hash, rol) VALUES (@nombre_usuario, @contraseña_hash, @rol)');
+            .input('nombre', sql.VarChar(50), nombre)
+            .input('apellido', sql.VarChar(50), apellido)
+            .input('email', sql.VarChar(100), email)
+            .query(`
+                INSERT INTO dbo.Usuarios (nombre_usuario, contraseña_hash, rol, nombre, apellido, email) 
+                VALUES (@nombre_usuario, @contraseña_hash, @rol, @nombre, @apellido, @email)
+            `);
 
         res.status(201).json({ msg: 'Usuario registrado exitosamente.' });
 
     } catch (error) {
         console.error(error);
+        // Error para email o nombre de usuario duplicado
         if (error.number === 2627 || error.number === 2601) {
-            return res.status(400).json({ msg: 'El nombre de usuario ya existe.' });
+            return res.status(400).json({ msg: 'El nombre de usuario o el email ya existen.' });
         }
         res.status(500).send('Error en el servidor al registrar.');
     }

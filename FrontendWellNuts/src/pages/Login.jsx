@@ -5,11 +5,16 @@ import { useForm } from 'react-hook-form';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { register as registerService } from '../services/authService';
-import '../styles/Login.css'; 
+import '../styles/Login.css';
 
 const Login = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const { register: registerForm, handleSubmit: handleRegisterSubmit, formState: { errors: registerErrors } } = useForm();
+  const {
+    register: registerForm,
+    handleSubmit: handleRegisterSubmit,
+    formState: { errors: registerErrors },
+    getValues
+  } = useForm();
 
   const [isLoginView, setIsLoginView] = useState(true);
   const [serverError, setServerError] = useState('');
@@ -31,21 +36,21 @@ const Login = () => {
       setServerError('');
       await login(data);
     } catch (error) {
-      setServerError(error.response?.data?.msg || 'Error al iniciar sesión.');
+      setServerError(error?.response?.data?.msg || 'Error al iniciar sesión.');
     }
   };
 
   const onRegisterSubmit = async (data) => {
     try {
-      setServerError('');
-      setRegisterSuccess('');
-      await registerService({ nombre_usuario: data.nombre_usuario_reg, contraseña: data.contraseña_reg });
-      setRegisterSuccess('¡Usuario registrado con éxito! Ahora puedes iniciar sesión.');
-      setIsLoginView(true);
+        setServerError('');
+        setRegisterSuccess('');
+        await registerService(data);
+        setRegisterSuccess('¡Usuario registrado con éxito! Ahora puedes iniciar sesión.');
+        setIsLoginView(true);
     } catch (error) {
-      setServerError(error.response?.data?.msg || 'Error al registrar el usuario.');
+        setServerError(error.response?.data?.msg || 'Error al registrar el usuario.');
     }
-  };
+};
 
   const toggleView = () => {
     setIsLoginView(!isLoginView);
@@ -91,28 +96,58 @@ const Login = () => {
           <>
             <h2 className="title-glass mb-4">Registrarse</h2>
             <form onSubmit={handleRegisterSubmit(onRegisterSubmit)}>
+              {/* Campo Nombre */}
+              <div className="mb-3">
+                <label className="form-label">Nombre</label>
+                <input
+                  className="search-input w-100"
+                  {...registerForm('nombre', { required: 'El nombre es obligatorio' })}
+                />
+                {registerErrors.nombre && <p className="error-msg">{registerErrors.nombre.message}</p>}
+              </div>
+              {/* Campo Apellido */}
+              <div className="mb-3">
+                <label className="form-label">Apellido</label>
+                <input
+                  className="search-input w-100"
+                  {...registerForm('apellido', { required: 'El apellido es obligatorio' })}
+                />
+                {registerErrors.apellido && <p className="error-msg">{registerErrors.apellido.message}</p>}
+              </div>
+              {/* Campo Email */}
+              <div className="mb-3">
+                <label className="form-label">Email</label>
+                <input
+                  type="email"
+                  className="search-input w-100"
+                  {...registerForm('email', { required: 'El email es obligatorio', pattern: { value: /^\S+@\S+$/i, message: "Email no válido" } })}
+                />
+                {registerErrors.email && <p className="error-msg">{registerErrors.email.message}</p>}
+              </div>
+              {/* Campo Usuario */}
               <div className="mb-3">
                 <label className="form-label">Usuario</label>
                 <input
                   className="search-input w-100"
-                  {...registerForm('nombre_usuario_reg', { required: 'El nombre de usuario es obligatorio' })}
+                  {...registerForm('nombre_usuario', { required: 'El nombre de usuario es obligatorio' })}
                 />
-                {registerErrors.nombre_usuario_reg && <p className="error-msg">{registerErrors.nombre_usuario_reg.message}</p>}
+                {registerErrors.nombre_usuario && <p className="error-msg">{registerErrors.nombre_usuario.message}</p>}
               </div>
+              {/* Campo Contraseña */}
               <div className="mb-4">
                 <label className="form-label">Contraseña</label>
                 <input
                   type="password"
                   className="search-input w-100"
-                  {...registerForm('contraseña_reg', { required: 'La contraseña es obligatoria', minLength: { value: 6, message: 'La contraseña debe tener al menos 6 caracteres' } })}
+                  {...registerForm('contraseña', { required: 'La contraseña es obligatoria', minLength: { value: 6, message: 'Mínimo 6 caracteres' } })}
                 />
-                {registerErrors.contraseña_reg && <p className="error-msg">{registerErrors.contraseña_reg.message}</p>}
+                {registerErrors.contraseña && <p className="error-msg">{registerErrors.contraseña.message}</p>}
               </div>
 
               {serverError && <p className="error-msg text-center mb-3">{serverError}</p>}
-
               <button type="submit" className="btn-create w-100">Registrar</button>
             </form>
+
             <p className="mt-4 text-center toggle-text">
               ¿Ya tienes una cuenta? <span onClick={toggleView} className="toggle-link">Inicia sesión</span>
             </p>

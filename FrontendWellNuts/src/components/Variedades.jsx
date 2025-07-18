@@ -91,7 +91,7 @@ const Variedades = ({ onVolver }) => {
       {modoFormulario ? (
         <>
           <div className='form-glass-container'>
-            <h2>{modoFormulario === 'crear' ? 'Agregar Variedad' : 'Editar Variedad'}</h2>
+            <h2 className='title-glass'>{ modoFormulario === 'crear' ? 'Agregar Variedad' : 'Editar Variedad'}</h2>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="form-row mb-3">
                 <label className="form-label">Nombre de variedad</label>
@@ -129,7 +129,7 @@ const Variedades = ({ onVolver }) => {
       ) : (
         <>
           <div className="d-flex align-items-center justify-content-between mb-3">
-            <h2>Variedades de Productos</h2>
+            <h2 className='title-glass'>Variedades de Productos</h2>
             <button className="btn btn-secondary" onClick={onVolver}>Volver a Productos</button>
           </div>
           <button className="btn btn-success mb-3" onClick={() => setModoFormulario('crear')}>Agregar Variedad</button>

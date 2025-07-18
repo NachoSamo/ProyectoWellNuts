@@ -1,16 +1,8 @@
 html,
 body,
 #root {
-  height: 100%;
-  --s: 200px;
-  --c1: #1d1d1d;
-  --c2: #727479;
-  --c3: #3c3c3c;
-
-  background:
-    repeating-conic-gradient(from 30deg, #0000 0 120deg, var(--c3) 0 50%) calc(var(--s)/2) calc(var(--s)*tan(30deg)/2),
-    repeating-conic-gradient(from 30deg, var(--c1) 0 60deg, var(--c2) 0 120deg, var(--c3) 0 50%);
-  background-size: var(--s) calc(var(--s)*tan(30deg));
+  background:white;
+  background-size: var(--s) var(--s);
   width: 100%;
   margin: 0;
   padding: 0;
@@ -27,7 +19,7 @@ body,
 
 /* === GLASS CONTAINER === */
 .glass-container {
-  background: rgba(36, 41, 56, 0.8);
+  background: rgba(99, 86, 50, 0.8);
   border-radius: 1.25rem;
   padding: 2rem;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
@@ -85,6 +77,11 @@ body,
 
 .btn-delete {
   background-color: #ef4444;
+  color: white;
+}
+
+.btn-profile {
+  background-color: #16437E;
   color: white;
 }
 
@@ -149,7 +146,7 @@ body,
 
 /* === NAVBAR === */
 .glass-navbar {
-  background: rgba(17, 24, 39, 0.7);
+  background: rgba(99, 86, 50, 0.8);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
@@ -372,4 +369,14 @@ body,
 
 .metric-change.warning {
   color: #eab308;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.error-msg {
+    color: #ef4444;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
 }

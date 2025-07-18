@@ -101,7 +101,11 @@ const Login = () => {
                 <label className="form-label">Nombre</label>
                 <input
                   className="search-input w-100"
-                  {...registerForm('nombre', { required: 'El nombre es obligatorio' })}
+                  {...registerForm('nombre', 
+                    { required: 'El nombre es obligatorio',
+                      pattern: { value: /^[A-Za-z\s]+$/, message: "Solo letras y espacios",
+                        minLength: { value: 2, message: "Mínimo 2 caracteres" }
+                      } })}
                 />
                 {registerErrors.nombre && <p className="error-msg">{registerErrors.nombre.message}</p>}
               </div>
@@ -110,7 +114,11 @@ const Login = () => {
                 <label className="form-label">Apellido</label>
                 <input
                   className="search-input w-100"
-                  {...registerForm('apellido', { required: 'El apellido es obligatorio' })}
+                  {...registerForm('apellido', 
+                    { required: 'El apellido es obligatorio',
+                      pattern: { value: /^[A-Za-z\s]+$/, message: "Solo letras y espacios",
+                        minLength: { value: 2, message: "Mínimo 2 caracteres" }
+                     }} )}
                 />
                 {registerErrors.apellido && <p className="error-msg">{registerErrors.apellido.message}</p>}
               </div>
@@ -139,7 +147,15 @@ const Login = () => {
                 <input
                   type="password"
                   className="search-input w-100"
-                  {...registerForm('contraseña', { required: 'La contraseña es obligatoria', minLength: { value: 6, message: 'Mínimo 6 caracteres' } })}
+                  {...registerForm('contraseña', 
+                    { 
+                      required: 'La contraseña es obligatoria', 
+                      minLength: { value: 6, message: 'Mínimo 6 caracteres' },
+                      pattern: { 
+                        value: /^(?=.*[A-Z])(?=.*\d).+$/, 
+                        message: 'Debe contener al menos una letra mayúscula y un número' 
+                      }
+                    })}
                 />
                 {registerErrors.contraseña && <p className="error-msg">{registerErrors.contraseña.message}</p>}
               </div>

@@ -6,7 +6,8 @@ const productosRoutes = require('./routes/productos');
 const clientesRoutes = require('./routes/clientes'); 
 const detalleRoutes = require('./routes/detalleVenta'); 
 const variedadesRoutes = require('./routes/variedadProducto');
-const authRoutes = require('./routes/auth'); // Asegúrate de importar las rutas de autenticación
+const authRoutes = require('./routes/auth');
+const usuariosRoutes = require('./routes/usuarios');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -25,6 +26,7 @@ app.use('/api/clientes', clientesRoutes);
 app.use('/api/detalleVentas', detalleRoutes);
 app.use('/api/variedadProducto', variedadesRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/usuarios', usuariosRoutes);
 
 app.get('/', (req, res) => {
   res.send('API WellNuts funcionando correctamente');

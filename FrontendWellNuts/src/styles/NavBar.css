@@ -1,0 +1,91 @@
+.user-dropdown-toggle {
+    cursor: pointer;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0.25rem 0.5rem !important;
+    border-radius: 20px;
+    transition: background-color 0.2s ease;
+}
+
+.user-dropdown-toggle:hover, .user-dropdown-toggle.show {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.user-dropdown-toggle::after {
+    /* Oculta la flecha por defecto de bootstrap */
+    display: none !important;
+}
+
+.profile-pic-navbar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+
+/* --- Estilos para el Menú Desplegable --- */
+.user-dropdown-menu {
+    background: rgba(99, 86, 50, 0.8) !important;
+    border-radius: 0.75rem !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5) !important;
+    backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    padding: 0 !important;
+    margin-top: 10px !important;
+    min-width: 250px;
+    overflow: hidden; /* Para que el Divider no se salga */
+}
+
+/* --- Cabecera del Menú --- */
+.dropdown-profile-header {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+}
+
+.dropdown-profile-pic {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 1rem;
+}
+
+.dropdown-user-info {
+    line-height: 1.3;
+}
+
+.dropdown-username {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #f1f5f9;
+}
+
+.dropdown-user-role {
+    font-size: 0.9rem;
+    color: #94a3b8;
+}
+
+/* --- Separador y Items del Menú --- */
+.dropdown-divider {
+    border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+    margin: 0 !important;
+}
+
+.dropdown-item-custom {
+    color: #e2e8f0 !important;
+    padding: 0.75rem 1.25rem !important;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+}
+
+.dropdown-item-custom:hover, .dropdown-item-custom:focus {
+    background-color: rgba(148, 163, 184, 0.15) !important;
+}
+
+.dropdown-item-custom.text-danger:hover, .dropdown-item-custom.text-danger:focus {
+    color: #ef4444 !important;
+    background-color: rgba(239, 68, 68, 0.15) !important;
+}

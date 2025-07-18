@@ -1,19 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useForm } from 'react-hook-form';
-import { useAuth } from '../context/AuthContext'; // 1. Importar el hook de autenticación
-import {
-  getProductos,
-  crearProducto,
-  modificarProducto,
-  eliminarProducto
-} from '../services/productosService';
+import { useAuth } from '../context/AuthContext';
+import { getProductos, crearProducto, modificarProducto, eliminarProducto } from '../services/productosService';
 import { getVariedades } from '../services/variedadProductoService';
 import Variedades from '../components/Variedades';
 import FormularioProducto from '../components/forms/FormularioProducto';
+import ConfirmModal from '../components/ConfirmModal'; 
 import '../styles/glass.css';
 
 const Productos = () => {
-  const { user } = useAuth(); // 2. Obtener el usuario y su rol del contexto
+  const { user } = useAuth();
   const [productos, setProductos] = useState([]);
   const [variedades, setVariedades] = useState([]);
   const [modoFormulario, setModoFormulario] = useState(null);
@@ -21,37 +17,34 @@ const Productos = () => {
   const [filtro, setFiltro] = useState('');
   const [mostrarVariedades, setMostrarVariedades] = useState(false);
   const [variedadesCargadas, setVariedadesCargadas] = useState(false);
+
+  // Estados para el modal de confirmación
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [productIdToDelete, setProductIdToDelete] = useState(null);
+  const [itemParaEliminar, setItemParaEliminar] = useState(null);
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit, reset, formState: { errors } } = useForm();
 
-  useEffect(() => {
-    cargarProductos();
-    if (user?.rol === 'admin') {
-      cargarVariedades();
-    }
-  }, [user]);
-
-  const cargarProductos = () => {
+  const cargarProductos = useCallback(() => {
     getProductos()
       .then(res => setProductos(res.data))
       .catch(err => console.error('Error al cargar productos:', err));
-  };
+  }, []);
 
-  const cargarVariedades = () => {
+  const cargarVariedades = useCallback(() => {
     getVariedades()
       .then(res => {
         setVariedades(res.data);
         setVariedadesCargadas(true);
       })
       .catch(err => console.error('Error al cargar variedades:', err));
-  };
+  }, []);
+
+  useEffect(() => {
+    cargarProductos();
+    if (user?.rol === 'admin') {
+      cargarVariedades();
+    }
+  }, [user, cargarProductos, cargarVariedades]);
 
   const onSubmit = data => {
     const action = modoFormulario === 'crear'
@@ -70,23 +63,24 @@ const Productos = () => {
     reset({ ...producto, id_variedad: producto.id_variedad.toString() });
   };
 
-  const confirmarEliminarProducto = (id) => {
-    setProductIdToDelete(id);
+  const abrirModalConfirmacion = (id) => {
+    setItemParaEliminar(id);
     setShowConfirmModal(true);
   };
 
   const eliminarProductoHandler = () => {
-    if (productIdToDelete) {
-      eliminarProducto(productIdToDelete)
+    if (itemParaEliminar) {
+      eliminarProducto(itemParaEliminar)
         .then(() => {
           cargarProductos();
-          setShowConfirmModal(false);
-          setProductIdToDelete(null);
         })
         .catch(err => {
           console.error('Error al eliminar producto:', err);
+          alert('No se pudo eliminar el producto.');
+        })
+        .finally(() => {
           setShowConfirmModal(false);
-          setProductIdToDelete(null);
+          setItemParaEliminar(null);
         });
     }
   };
@@ -116,10 +110,8 @@ const Productos = () => {
               <h2 className="title-glass">Productos</h2>
               <img src="/Product.png" alt="Producto" style={{ width: '107px', height: '107px' }} />
             </div>
-
             <div className="d-flex align-items-center mb-3 gap-2">
               <input className="search-input" placeholder="Buscar producto" value={filtro} onChange={e => setFiltro(e.target.value)} />
-              {/* 3. Renderizado condicional para acciones de administrador */}
               {user?.rol === 'admin' && (
                 <>
                   <button className="btn-create" onClick={() => { setModoFormulario('crear'); cargarVariedades(); }}>
@@ -129,7 +121,6 @@ const Productos = () => {
                 </>
               )}
             </div>
-
             <table className="table-glass">
               <thead>
                 <tr>
@@ -152,7 +143,7 @@ const Productos = () => {
                     {user?.rol === 'admin' && (
                       <td>
                         <button className="btn-action btn-edit me-2" onClick={() => editarProducto(prod)}>Editar</button>
-                        <button className="btn-action btn-delete" onClick={() => confirmarEliminarProducto(prod.id_producto)}>Eliminar</button>
+                        <button className="btn-action btn-delete" onClick={() => abrirModalConfirmacion(prod.id_producto)}>Eliminar</button>
                       </td>
                     )}
                   </tr>
@@ -161,18 +152,14 @@ const Productos = () => {
             </table>
           </>
         )}
-        {showConfirmModal && user?.rol === 'admin' && (
-          <div className="modal-overlay">
-            <div className="modal-content">
-              <p>¿Estás seguro de que quieres eliminar este producto?</p>
-              <div className="modal-actions">
-                <button className="btn btn-danger me-2" onClick={eliminarProductoHandler}>Eliminar</button>
-                <button className="btn btn-secondary" onClick={() => setShowConfirmModal(false)}>Cancelar</button>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
+      <ConfirmModal
+        show={showConfirmModal}
+        onConfirm={eliminarProductoHandler}
+        onCancel={() => setShowConfirmModal(false)}
+        title="Eliminar Producto"
+        message="¿Estás seguro de que quieres eliminar este producto? Esta acción es irreversible."
+      />
     </div>
   );
 };

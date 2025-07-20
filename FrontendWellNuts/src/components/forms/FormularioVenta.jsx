@@ -1,12 +1,12 @@
+
 import React, { useEffect, useState } from 'react';
-// 1. LA CORRECCIÓN CLAVE: Importamos nuestra instancia de Axios configurada
-import apiClient from '../../services/api'; // Asegúrate de que la ruta sea correcta
+import apiClient from '../../services/api';
 
 const FormularioVenta = ({ onCancel, onSuccess }) => {
   const [clientes, setClientes] = useState([]);
   const [productos, setProductos] = useState([]);
   const [idCliente, setIdCliente] = useState('');
-  const [fecha, setFecha] = useState(new Date().toISOString().split('T')[0]); // Fecha por defecto: hoy
+  const [fecha, setFecha] = useState(new Date().toISOString().split('T')[0]);
   const [pagado, setPagado] = useState(false);
   const [productoSeleccionado, setProductoSeleccionado] = useState('');
   const [cantidad, setCantidad] = useState(1);
@@ -23,7 +23,7 @@ const FormularioVenta = ({ onCancel, onSuccess }) => {
         setProductos(resProductos.data);
       } catch (err) {
         console.error("Error al cargar datos para el formulario:", err);
-        setError('No se pudieron cargar los clientes o productos. Verifique su sesión.');
+        setError('No se pudieron cargar los clientes o productos.');
       }
     };
     fetchData();
@@ -46,7 +46,7 @@ const FormularioVenta = ({ onCancel, onSuccess }) => {
 
     const nuevoDetalle = {
       id_producto: producto.id_producto,
-      nombre_producto: producto.nombre_producto,
+      nombre_producto: `${producto.nombre_variedad} - ${producto.nombre_producto} (${producto.tamaño_gramos}u)`, // Nombre completo
       cantidad: Number(cantidad),
       precio_unitario: producto.precio_actual
     };
@@ -71,10 +71,10 @@ const FormularioVenta = ({ onCancel, onSuccess }) => {
         fecha,
         id_cliente: parseInt(idCliente),
         pagado,
-        detalles
+        detalles: detalles.map(({ nombre_producto, ...resto }) => resto) // Quitamos el nombre completo antes de enviar
       };
       await apiClient.post('/ventas/completa', data);
-      onSuccess(); 
+      onSuccess();
     } catch (error) {
       console.error('Error al guardar venta:', error);
       alert(error.response?.data?.msg || 'Error al guardar la venta');
@@ -83,13 +83,14 @@ const FormularioVenta = ({ onCancel, onSuccess }) => {
 
   return (
     <div className="venta-form-card">
-      <h4 className="mb-4 text-center">Registrar Venta</h4>
-      {error && <p className="error-msg text-center">{error}</p>}
+      <h4 className="title-glass mb-4 text-center">Registrar Venta</h4>
+      {error && <p className="error-msg text-center mb-3">{error}</p>}
       
-      <div className="row mb-3">
+      <div className="row g-3 mb-3">
         <div className="col-md-6">
           <label className="form-label">Cliente</label>
-          <select className="form-select" value={idCliente} onChange={e => setIdCliente(e.target.value)}>
+          {/* CORRECCIÓN: Usar form-select y w-100 */}
+          <select className="form-select w-100" value={idCliente} onChange={e => setIdCliente(e.target.value)}>
             <option value="">Seleccione un cliente</option>
             {clientes.map(c => (
               <option key={c.id_cliente} value={c.id_cliente}>{c.nombre} {c.apellido}</option>
@@ -98,20 +99,24 @@ const FormularioVenta = ({ onCancel, onSuccess }) => {
         </div>
         <div className="col-md-6">
           <label className="form-label">Fecha</label>
-          <input type="date" className="form-control" value={fecha} onChange={e => setFecha(e.target.value)} />
+          {/* CORRECCIÓN: Usar form-control y w-100 */}
+          <input type="date" className="form-control w-100" value={fecha} onChange={e => setFecha(e.target.value)} />
         </div>
       </div>
 
-      <div className="form-check mb-4">
+      <div className="form-check mb-4 d-flex align-items-center">
         <input type="checkbox" className="form-check-input" id="pagadoCheck" checked={pagado} onChange={e => setPagado(e.target.checked)} />
         <label className="form-check-label ms-2" htmlFor="pagadoCheck">Marcar como Pagado</label>
       </div>
-      <hr style={{borderColor: 'rgba(255,255,255,0.1)'}} />
-      <h5 className="mb-3">Agregar Productos</h5>
+      
+      <hr style={{borderColor: 'rgba(255, 255, 255, 0.1)', margin: '2rem 0'}} />
+      
+      <h5 className="title-glass mb-3" style={{fontSize: '1.2rem'}}>Agregar Productos</h5>
       <div className="row g-2 align-items-end mb-3">
         <div className="col-md-6">
           <label className="form-label">Producto</label>
-          <select className="form-select" value={productoSeleccionado} onChange={e => setProductoSeleccionado(e.target.value)}>
+          {/* CORRECCIÓN: Usar form-select y w-100 */}
+          <select className="form-select w-100" value={productoSeleccionado} onChange={e => setProductoSeleccionado(e.target.value)}>
             <option value="">Seleccione un producto</option>
             {productos.map(p => {
               const stock = Math.floor(p.stock_disponible) || 0;
@@ -125,26 +130,51 @@ const FormularioVenta = ({ onCancel, onSuccess }) => {
         </div>
         <div className="col-md-3">
           <label className="form-label">Cantidad</label>
-          <input type="number" min="1" className="form-control" placeholder="Cant." value={cantidad} onChange={e => setCantidad(Number(e.target.value))} />
+          {/* CORRECCIÓN: Usar form-control y w-100 */}
+          <input type="number" min="1" className="form-control w-100" placeholder="Cant." value={cantidad} onChange={e => setCantidad(Number(e.target.value))} />
         </div>
         <div className="col-md-3">
-          <button className="btn btn-success w-100" onClick={agregarDetalle}>Agregar</button>
+          {/* CORRECCIÓN: Usar btn-create para consistencia */}
+          <button className="btn-create w-100" onClick={agregarDetalle}>Agregar</button>
         </div>
       </div>
 
-      <ul className="list-group mb-4">
+      <div className="details-list-container my-4">
         {detalles.map((d, i) => (
-          <li key={i} className="list-group-item d-flex justify-content-between align-items-center" style={{backgroundColor: 'rgba(255,255,255,0.05)', border: 'none'}}>
+          <div key={i} className="detail-item">
             <span>{d.nombre_producto} - {d.cantidad} x ${d.precio_unitario.toFixed(2)}</span>
-            <button className="btn-action btn-delete btn-sm" onClick={() => eliminarDetalle(i)}>X</button>
-          </li>
+            <button className="btn-action btn-delete btn-sm" onClick={() => eliminarDetalle(i)}>×</button>
+          </div>
         ))}
-      </ul>
+      </div>
 
-      <div className="d-flex justify-content-end gap-2">
+      <div className="d-flex justify-content-end gap-2 mt-4">
         <button className="btn-action btn-delete" onClick={onCancel}>Cancelar</button>
         <button className="btn-create" onClick={guardarVenta}>Guardar Venta</button>
       </div>
+
+      {/* Estilos específicos para este formulario para no tocar glass.css */}
+      <style>{`
+        .details-list-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            color: #e2e8f0;
+        }
+        .detail-item .btn-sm {
+            padding: 2px 8px;
+            font-size: 1rem;
+            line-height: 1;
+        }
+      `}</style>
     </div>
   );
 };

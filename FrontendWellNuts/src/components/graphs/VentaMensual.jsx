@@ -81,7 +81,7 @@ const VentaMensual = () => {
             }}
           >
             <div style={{ fontWeight: 600 }}>{label}</div>
-            <div>{`${payload[0].name}: ${payload[0].value.toLocaleString()}g`}</div>
+            <div>{`${payload[0].name}: $${payload[0].value.toLocaleString()}`}</div>
           </div>
         );
       }
@@ -92,7 +92,7 @@ const VentaMensual = () => {
       <div className="chart-card">
         <div className="d-flex justify-content-between align-items-start mb-4">
           <div>
-            <h5>Ventas por mes</h5>
+            <h5>Ventas este mes</h5>
             <h3>{formatCurrency(totalMes)}</h3>
             <p className={variacion >= 1 ? 'positive' : 'negative'}>
               Variación con respecto al mes anterior {variacion >= 1 ? '+' : ''}{variacion}%
@@ -126,5 +126,4 @@ const VentaMensual = () => {
     );
   };
   
-  // Envuelve el componente con React.memo para optimizar el rendimiento
   export default React.memo(VentaMensual);

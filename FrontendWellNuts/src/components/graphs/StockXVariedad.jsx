@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import {
   BarChart,
   Bar,
@@ -6,7 +6,8 @@ import {
   YAxis,
   Tooltip,
   ResponsiveContainer,
-  CartesianGrid
+  CartesianGrid,
+  Cell // Aseguramos que Cell esté importado
 } from 'recharts';
 import { getStockVariedades } from '../../services/variedadProductoService';
 
@@ -16,60 +17,72 @@ const getBarColor = (stock) => {
   return 'rgba(34, 197, 94, 0.7)'; // verde
 };
 
+// --- EL TOOLTIP PERSONALIZADO CORREGIDO CON EL ESTILO ORIGINAL ---
+const CustomTooltip = ({ active, payload }) => {
+  if (active && payload && payload.length) {
+    // La corrección clave: accedemos al payload interno del punto de datos
+    const dataPoint = payload[0].payload; 
+    return (
+      <div
+        style={{
+          background: '#0f172a',
+          padding: '8px 12px',
+          borderRadius: '8px',
+          color: '#f8fafc',
+          fontSize: '0.85rem',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+          border: '1px solid rgba(255, 255, 255, 0.1)' // Un borde sutil
+        }}
+      >
+        <div style={{ fontWeight: 600 }}>{dataPoint.nombre_variedad}</div>
+        {/* Aquí mostramos el valor correcto 'stock_gramos' y no 'value' */}
+        <div>{`Stock: ${dataPoint.stock_gramos.toLocaleString()}g`}</div>
+      </div>
+    );
+  }
+
+  return null;
+};
+
 const StockXVariedad = () => {
   const [data, setData] = useState([]);
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const res = await getStockVariedades();
-        setData(res.data);
-      } catch (error) {
-        console.error('Error al cargar stock por variedad:', error);
-      }
+  const fetchData = useCallback(async () => {
+    try {
+      const res = await getStockVariedades();
+      setData(res.data);
+    } catch (error) {
+      console.error('Error al cargar stock por variedad:', error);
     }
-    fetchData();
   }, []);
 
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
   if (!Array.isArray(data) || data.length === 0) {
-    return <div className="chart-card">No hay datos de stock disponibles.</div>;
+    return <div className="chart-card"><div className="chart-placeholder">No hay datos de stock disponibles.</div></div>;
   }
-
-  const variedadMayorStock = data.reduce((max, curr) => (curr.stock_gramos > max.stock_gramos ? curr : max), data[0]);
-  const variedadMenorStock = data.reduce((min, curr) => (curr.stock_gramos < min.stock_gramos ? curr : min), data[0]);
-
-  const CustomTooltip = ({ active, payload, label }) => {
-    if (active && payload && payload.length) {
-      return (
-        <div
-          style={{
-            background: '#0f172a',
-            padding: '8px 12px',
-            borderRadius: '8px',
-            color: '#f8fafc',
-            fontSize: '0.85rem',
-            boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
-          }}
-        >
-          <div style={{ fontWeight: 600 }}>{label}</div>
-          <div>{`${payload[0].name}: ${payload[0].value.toLocaleString()}g`}</div>
-        </div>
-      );
-    }
-
-    return null;
-  };
-
+  
+  // Usamos un bloque try-catch para prevenir errores si los datos no son los esperados
+  let variedadMayorStock, variedadMenorStock;
+  try {
+    variedadMayorStock = data.reduce((max, curr) => (curr.stock_gramos > max.stock_gramos ? curr : max), data[0]);
+    variedadMenorStock = data.reduce((min, curr) => (curr.stock_gramos < min.stock_gramos ? curr : min), data[0]);
+  } catch {
+     return <div className="chart-card"><div className="chart-placeholder">Error al procesar datos.</div></div>;
+  }
 
   return (
     <div className="chart-card d-flex flex-wrap justify-content-between align-items-start gap-4">
-      <div style={{ flex: '1 1 50%' }}>
+      {/* --- Gráfico de Barras (Columna Izquierda) --- */}
+      <div style={{ flex: '1 1 50%', minWidth: '300px' }}>
         <h5 className="text-white mb-3">Stock por Variedad</h5>
         <ResponsiveContainer width="100%" height={300}>
           <BarChart
             data={data}
             layout="vertical"
-            margin={{ top: 20, left: 60 }}
+            margin={{ top: 20, left: 60 }} // Márgenes originales
           >
             <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
             <XAxis type="number" stroke="#94a3b8" />
@@ -79,30 +92,26 @@ const StockXVariedad = () => {
               stroke="#94a3b8"
               width={150}
             />
-            <Tooltip content={<CustomTooltip />} />
+            <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(255, 255, 255, 0.05)' }} />
             <Bar
               dataKey="stock_gramos"
-              barSize={18}
-              radius={[5, 5, 0, 0]}
-              fill="#facc15"
-              label={{ position: 'right', fill: '#e2e8f0' }}
+              barSize={18} // Tamaño de barra original
             >
-              {
-                data.map((entry, index) => (
-                  <cell
+              {data.map((entry, index) => (
+                  <Cell // Usamos Cell con mayúscula
                     key={`cell-${index}`}
                     fill={getBarColor(entry.stock_gramos)}
                   />
-                ))
-              }
+              ))}
             </Bar>
           </BarChart>
         </ResponsiveContainer>
       </div>
 
+      {/* --- Tarjetas de Métricas (Columna Derecha) --- */}
       <div
         className="d-flex flex-column justify-content-between gap-3"
-        style={{ flex: 1, marginTop: '30px', height: '300px' }}
+        style={{ flex: 1, marginTop: '30px', height: '300px' }} // Estilos originales
       >
         <div
           className="metric-card"

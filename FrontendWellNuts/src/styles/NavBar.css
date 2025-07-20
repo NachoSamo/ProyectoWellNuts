@@ -9,7 +9,7 @@
 }
 
 .user-dropdown-toggle:hover, .user-dropdown-toggle.show {
-    background-color: rgba(255, 255, 255, 0.1) !important;
+    background-color: rgba(36, 41, 56, 0.9) !important;
 }
 
 .user-dropdown-toggle::after {
@@ -27,7 +27,7 @@
 
 /* --- Estilos para el Menú Desplegable --- */
 .user-dropdown-menu {
-    background: rgba(99, 86, 50, 0.8) !important;
+    background: rgba(36, 41, 56, 0.9) !important;
     border-radius: 0.75rem !important;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5) !important;
     backdrop-filter: blur(12px) !important;

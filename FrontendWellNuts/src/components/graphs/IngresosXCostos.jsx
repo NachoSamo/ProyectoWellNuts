@@ -31,6 +31,7 @@ const IngresosXCostos = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // Mantenemos tu lógica original para obtener los datos
         const rentabilidad = await obtenerRentabilidadProductos();
         setDatos(rentabilidad);
       } catch (err) {
@@ -51,13 +52,11 @@ const IngresosXCostos = () => {
     return <div className="chart-card text-light">No hay datos para mostrar.</div>;
   }
 
-  // Ordenar por mayor porcentaje de ganancia
   const datosOrdenados = [...datos].sort((a, b) => b.porcentaje_ganancia - a.porcentaje_ganancia);
 
   const productoMayorPorcentaje = datosOrdenados[0];
   const productoMenorPorcentaje = datosOrdenados[datosOrdenados.length - 1];
 
-  // === Gráfico: porcentaje de rentabilidad (%)
   const labels = datosOrdenados.map(d => d.nombre_presentacion);
   const data = {
     labels,
@@ -80,8 +79,9 @@ const IngresosXCostos = () => {
         display: false,
       },
       tooltip: {
+        displayColors: false, // Oculta el cuadrito de color
         callbacks: {
-          label: (context) => `${context.parsed.x.toFixed(2)}%`,
+          label: () => '',
         },
       },
     },
@@ -89,7 +89,6 @@ const IngresosXCostos = () => {
       x: {
         title: {
           display: true,
-          text: 'Porcentaje de rentabilidad',
           color: '#e2e8f0',
         },
         ticks: {
@@ -110,8 +109,6 @@ const IngresosXCostos = () => {
   return (
     <div className="chart-card">
       <h4 className="text-white mb-4">Rentabilidad por Producto</h4>
-
-      {/* === Tarjetas === */}
       <div className="d-flex flex-wrap justify-content-between gap-4 mb-5">
         <div className="metric-card flex-fill">
           <div className="metric-title">Producto más rentable</div>
@@ -128,9 +125,9 @@ const IngresosXCostos = () => {
           </div>
         </div>
       </div>
-
-      {/* === Gráfico === */}
-      <Bar data={data} options={options} />
+      <div style={{ position: 'relative', height: '500px' }}>
+        <Bar data={data} options={options} />
+      </div>
     </div>
   );
 };

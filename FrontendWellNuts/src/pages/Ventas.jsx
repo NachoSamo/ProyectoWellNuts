@@ -170,7 +170,7 @@ const Ventas = () => {
                         </button>
                       </td>
                       <td>
-                        <button className="btn-action btn-edit me-2" onClick={() => toggleDetalles(v.id_venta)}>
+                        <button className="btn-action me-2" onClick={() => toggleDetalles(v.id_venta)}>
                           {detallesVisibles[v.id_venta] ? 'Ocultar' : 'Ver Detalle'}
                         </button>
                         {user?.rol === 'admin' && (
@@ -197,8 +197,8 @@ const Ventas = () => {
                                   <tr key={d.id_detalle}>
                                     <td>{`${d.nombre_variedad} - ${d.nombre_producto} (${d.tamaño_gramos}u)`}</td>
                                     <td>{d.cantidad}</td>
-                                    <td>${d.precio_unitario.toFixed(0)}</td>
-                                    <td>${(d.cantidad * d.precio_unitario).toFixed(0)}</td>
+                                    <td>${d.precio_unitario}</td>
+                                    <td>${(d.cantidad * d.precio_unitario)}</td>
                                   </tr>
                                 ))}
                               </tbody>

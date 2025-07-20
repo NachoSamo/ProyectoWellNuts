@@ -25,7 +25,6 @@ const FormularioProducto = ({
   return (
     <>
       <div className='form-glass-container'>
-        {/* Título del formulario que cambia según el modo */}
         <h2 className="title-glass">
           {modoFormulario === 'crear' ? 'Agregar Producto' : 'Editar Producto'}
         </h2>

@@ -25,8 +25,7 @@ const FormularioClientes = ({
   return (
     <>
     <div className='form-glass-container'>
-      {/* Título del formulario que cambia según el modo */}
-      <h2>{modoFormulario === 'crear' ? 'Agregar Cliente' : 'Editar Cliente'}</h2>
+      <h2 className='title-glass'>{modoFormulario === 'crear' ? 'Agregar Cliente' : 'Editar Cliente'}</h2>
       {/* Formulario principal */}
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* Campo Nombre */}

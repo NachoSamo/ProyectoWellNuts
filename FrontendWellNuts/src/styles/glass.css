@@ -1,13 +1,13 @@
 html,
 body,
 #root {
-  background:white;
-  background-size: var(--s) var(--s);
+  height: 100%;
+  background-color: #23263a;
+  background-image: url('./public/topography.svg');
   width: 100%;
   margin: 0;
   padding: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-
 }
 
 
@@ -19,7 +19,7 @@ body,
 
 /* === GLASS CONTAINER === */
 .glass-container {
-  background: rgba(99, 86, 50, 0.8);
+  background: rgba(36, 41, 56, 0.9);
   border-radius: 1.25rem;
   padding: 2rem;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
@@ -67,7 +67,7 @@ body,
 }
 
 .btn-edit {
-  background-color: #facc15;
+  background-color: #ffeda4;
   color: #1e1e1e;
 }
 
@@ -146,7 +146,7 @@ body,
 
 /* === NAVBAR === */
 .glass-navbar {
-  background: rgba(99, 86, 50, 0.8);
+  background: rgba(36, 41, 56, 0.9);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }

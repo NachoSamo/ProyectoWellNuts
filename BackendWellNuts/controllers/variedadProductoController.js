@@ -6,7 +6,7 @@ exports.getVariedades = async (req, res) => {
     const result = await pool.request().query('SELECT * FROM VariedadProducto');
     res.json(result.recordset);
   } catch (error) {
-    console.error('❌ Error al obtener variedades:', error);
+    console.error('Error al obtener variedades:', error);
     res.status(500).send('Error en el servidor');
   }
 };
@@ -25,7 +25,7 @@ exports.getVariedadById = async (req, res) => {
 
     res.json(result.recordset[0]);
   } catch (error) {
-    console.error('❌ Error al obtener variedad:', error);
+    console.error('Error al obtener variedad:', error);
     res.status(500).send('Error en el servidor');
   }
 };
@@ -41,7 +41,7 @@ exports.createVariedad = async (req, res) => {
     
     res.status(201).send('Variedad creada correctamente');
   } catch (error) {
-    console.error('❌ Error al crear variedad:', error);
+    console.error('Error al crear variedad:', error);
     res.status(500).send('Error en el servidor');
   }
 };
@@ -67,7 +67,7 @@ exports.modificarVariedad = async (req, res) => {
 
     res.send('Variedad modificada correctamente');
   } catch (error) {
-    console.error('❌ Error al modificar variedad:', error);
+    console.error('Error al modificar variedad:', error);
     res.status(500).send('Error en el servidor');
   }
 };
@@ -86,7 +86,7 @@ exports.eliminarVariedad = async (req, res) => {
 
     res.send('Variedad eliminada correctamente');
   } catch (error) {
-    console.error('❌ Error al eliminar variedad:', error);
+    console.error('Error al eliminar variedad:', error);
     res.status(500).send('Error en el servidor');
   }
 };
@@ -102,7 +102,7 @@ exports.getStockPorVariedad = async (req, res) => {
     `);
     res.json(result.recordset);
   } catch (error) {
-    console.error("❌ Error al obtener stock por variedad:", error);
+    console.error("Error al obtener stock por variedad:", error);
     res.status(500).send("Error al obtener stock por variedad");
   }
 };

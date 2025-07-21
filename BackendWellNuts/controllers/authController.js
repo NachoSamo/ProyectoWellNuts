@@ -1,7 +1,6 @@
 const sql = require('mssql');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-
 const { poolPromise } = require('../data/database');
 
 exports.register = async (req, res) => {
@@ -51,7 +50,6 @@ exports.login = async (req, res) => {
     }
 
     try {
-        // 2. LA MISMA CORRECCIÓN CLAVE AQUÍ:
         const pool = await poolPromise;
 
         const result = await pool.request()
@@ -80,12 +78,18 @@ exports.login = async (req, res) => {
         jwt.sign(
             payload,
             process.env.JWT_SECRET,
-            { expiresIn: '8h' },
+            { expiresIn: '1h' },
             (error, token) => {
                 if (error) throw error;
                 res.json({ token });
-            }
+            }  
         );
+
+        //payload sirve para identificar al usuario en el token JWT 
+        // y el rol para verificar permisos en el middleware de autenticación
+        // .sign crea el token con el payload y la clave secreta del env
+        // expiresIn define la duración del token esto determinara la cantidad de tiempo que el usuario estará autenticado si ponemos algo como 1h el token durara 1 hora 
+        // y te pedirá que inicies sesión nuevamente después de ese tiempo 
 
     } catch (error) {
         console.error(error);

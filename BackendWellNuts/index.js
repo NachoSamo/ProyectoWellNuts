@@ -1,6 +1,6 @@
 require('dotenv').config();
 const express = require('express');
-const cors = require('cors'); // 👈 importante
+const cors = require('cors'); 
 const ventasRoutes = require('./routes/ventas');
 const productosRoutes = require('./routes/productos'); 
 const clientesRoutes = require('./routes/clientes'); 
@@ -9,7 +9,7 @@ const variedadesRoutes = require('./routes/variedadProducto');
 const authRoutes = require('./routes/auth');
 const usuariosRoutes = require('./routes/usuarios');
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 
 app.use(cors({
   origin: 'http://localhost:5173', 

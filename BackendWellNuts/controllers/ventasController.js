@@ -16,10 +16,11 @@ exports.getVentas = async (req, res) => {
     `);
     res.json(result.recordset);
   } catch (error) {
-    console.error('❌ Error al obtener ventas:', error);
+    console.error('Error al obtener ventas:', error);
     res.status(500).send('Error en servidor');
   }
 };
+
 
 exports.getVentaById = async (req, res) => {
   const { id } = req.params;
@@ -40,6 +41,8 @@ exports.eliminarVenta = async (req, res) => {
   const { id } = req.params;
   try {
     const pool = await poolPromise;
+    //usamos transacciones para asegurar la integridad de los datos ya que una venta puede tener varios detalles
+    //si eliminamos la venta, debemos eliminar también sus detalles
     const transaction = new sql.Transaction(pool);
     await transaction.begin();
 
@@ -54,7 +57,7 @@ exports.eliminarVenta = async (req, res) => {
     await transaction.commit();
     res.send('Venta eliminada correctamente');
   } catch (error) {
-    console.error('❌ Error al eliminar venta:', error);
+    console.error('Error al eliminar venta:', error);
     res.status(500).send('Error al eliminar venta');
   }
 };
@@ -150,7 +153,7 @@ exports.crearVentaConDetalles = async (req, res) => {
     res.status(201).json({ mensaje: 'Venta creada con éxito', id_venta });
 
   } catch (error) {
-    console.error('❌ Error al crear venta con detalles:', error);
+    console.error('Error al crear venta con detalles:', error);
     res.status(500).send('Error al crear venta con detalles');
   }
 };
@@ -167,7 +170,7 @@ exports.actualizarEstadoPagado = async (req, res) => {
     const venta = consulta.recordset[0];
     if (!venta) return res.status(404).send('Venta no encontrada');
 
-    const nuevoEstado = !venta.pagado;
+    const nuevoEstado = !venta.pagado; // invertimos el estado anterior 
 
     await pool.request()
       .input('id_venta', sql.Int, id_venta)
@@ -176,7 +179,7 @@ exports.actualizarEstadoPagado = async (req, res) => {
 
     res.send({ mensaje: 'Estado de pago actualizado', pagado: nuevoEstado });
   } catch (error) {
-    console.error("❌ Error al actualizar estado pagado:", error.message);
+    console.error("Error al actualizar estado pagado:", error.message);
     res.status(500).send("Error al actualizar estado pagado");
   }
 };
@@ -222,10 +225,12 @@ exports.getVentasMensuales = async (req, res) => {
       GROUP BY CONVERT(varchar(7), fecha, 120)
       ORDER BY mes
     `);
+    //CONVERT (varchar(7), fecha, 120) obtiene el año y mes en formato YYYY-MM
+    //SUM(precio_total) suma el total de ventas por mes
 
     res.json(result.recordset);
   } catch (error) {
-    console.error('🛑 ERROR en getVentasMensuales:', error); 
+    console.error('ERROR en getVentasMensuales:', error); 
     res.status(500).json({ 
       error: 'Error en servidor',
     });
@@ -242,14 +247,14 @@ exports.getVentasPorCliente = async (req, res) => {
         C.nombre + ' ' + C.apellido AS cliente,
         SUM(V.precio_total) AS total_ventas
       FROM Ventas V
-      INNER JOIN Clientes C ON V.id_cliente = C.id_cliente
+      JOIN Clientes C ON V.id_cliente = C.id_cliente
       GROUP BY C.id_cliente, C.nombre, C.apellido
       ORDER BY total_ventas DESC;
     `);
 
     res.json(result.recordset);
   } catch (error) {
-    console.error('❌ Error al obtener ventas por cliente:', error);
+    console.error('Error al obtener ventas por cliente:', error);
     res.status(500).send('Error en servidor');
   }
 };
@@ -272,7 +277,7 @@ exports.getMejorClienteDelMes = async (req, res) => {
 
     res.json(result.recordset[0] || {});
   } catch (error) {
-    console.error('❌ Error al obtener mejor cliente del mes:', error);
+    console.error('Error al obtener mejor cliente del mes:', error);
     res.status(500).send('Error en servidor');
   }
 };

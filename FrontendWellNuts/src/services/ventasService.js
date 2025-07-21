@@ -23,7 +23,7 @@ export {
   crearVentaConDetalles,
   actualizarEstadoPagado,
   getVentasMensuales,
-  // getTopClienteHistorico ya no se exporta directamente ya que se calculará en el frontend
+  // getTopClienteHistorico no se exporta directamente ya que se calculará en el frontend
   getTopClienteMes,
-  getTotalVentasPorCliente // Ahora apunta a '/ventas/ranking/clientes'
+  getTotalVentasPorCliente 
 };

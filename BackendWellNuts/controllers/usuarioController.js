@@ -25,7 +25,6 @@ exports.obtenerMiPerfil = async (req, res) => {
 exports.actualizarMiPerfil = async (req, res) => {
     const { nombre, apellido, email } = req.body;
 
-    // Asumimos que la URL de la foto viene de un middleware de subida de archivos
     const foto_perfil_url = req.file ? `/uploads/${req.file.filename}` : req.body.foto_perfil_url;
 
     try {

@@ -34,7 +34,7 @@ exports.getDetallePorVenta = async (req, res) => {
       `);
     res.json(result.recordset);
   } catch (error) {
-    console.error('❌ Error al obtener detalles por venta:', error.message);
+    console.error('Error al obtener detalles por venta:', error.message);
     res.status(500).send('Error al obtener detalles por venta');
   }
 };

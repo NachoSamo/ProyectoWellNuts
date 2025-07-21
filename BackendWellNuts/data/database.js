@@ -1,7 +1,7 @@
 require('dotenv').config();
 const sql = require('mssql');
 
-const config = { //environment variables para la conexión a la base de datos se usan para no exponer datos sensibles en el código
+const config = { 
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,

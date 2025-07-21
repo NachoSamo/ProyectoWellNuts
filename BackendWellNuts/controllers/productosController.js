@@ -61,7 +61,7 @@ exports.createProducto = async (req, res) => {
 
     res.status(201).send('Producto creado correctamente');
   } catch (error) {
-    console.error('❌ Error al crear producto:', error);
+    console.error('Error al crear producto:', error);
     res.status(500).send('Error en servidor');
   }
 };
@@ -96,7 +96,7 @@ exports.modificarProducto = async (req, res) => {
 
     res.send('Producto modificado correctamente');
   } catch (error) {
-    console.error('❌ Error al modificar producto:', error);
+    console.error('Error al modificar producto:', error);
     res.status(500).send('Error en servidor');
   }
 };
@@ -115,7 +115,7 @@ exports.eliminarProducto = async (req, res) => {
 
     res.send('Producto eliminado correctamente');
   } catch (error) {
-    console.error('❌ Error al eliminar producto:', error);
+    console.error('Error al eliminar producto:', error);
     res.status(500).send('Error en servidor');
   }
 };
@@ -151,7 +151,7 @@ exports.getRentabilidadProductos = async (req, res) => {
 
     res.json(productos);
   } catch (error) {
-    console.error('❌ Error al obtener rentabilidad de productos:', error);
+    console.error('Error al obtener rentabilidad de productos:', error);
     res.status(500).send('Error en servidor');
   }
 };

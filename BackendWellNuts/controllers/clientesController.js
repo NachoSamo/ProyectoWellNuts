@@ -7,7 +7,7 @@ exports.getClientes = async (req, res) => {
         const result = await pool.request().query('SELECT * FROM Clientes');
         res.json(result.recordset); // recordset contiene los datos obtenidos de la consulta
     } catch (error) {
-        console.error('❌ Error al obtener clientes:', error);
+        console.error('Error al obtener clientes:', error);
         res.status(500).send('Error en servidor');
     }
 };
@@ -31,7 +31,7 @@ exports.getClienteById = async (req, res) => {
 
         res.json(result.recordset[0]);
     } catch (error) {
-        console.error('❌ Error al obtener cliente por ID:', error);
+        console.error('Error al obtener cliente por ID:', error);
         res.status(500).send('Error en servidor');
     }
 }
@@ -53,7 +53,7 @@ exports.eliminarCliente = async (req, res) => {
 
         res.send('Cliente eliminado correctamente');
     } catch (error) {
-        console.error('❌ Error al eliminar cliente:', error);
+        console.error('Error al eliminar cliente:', error);
         res.status(500).send('Error en servidor');
     }
 }
@@ -61,7 +61,7 @@ exports.eliminarCliente = async (req, res) => {
 // Modificar cliente
 exports.modificarCliente = async (req, res) => {
     const { id_cliente } = req.params;
-    const { nombre, apellido, email, telefono } = req.body;
+    const { nombre, apellido, telefono } = req.body;
 
     try {
         const pool = await poolPromise;
@@ -85,14 +85,14 @@ exports.modificarCliente = async (req, res) => {
 
         res.send('Cliente modificado correctamente');
     } catch (error) {
-        console.error('❌ Error al modificar cliente:', error);
+        console.error('Error al modificar cliente:', error);
         res.status(500).send('Error en servidor');
     }
 }
 
 //nuevo cliente
 exports.createCliente = async (req, res) => {
-    const { nombre, apellido, email, telefono } = req.body;
+    const { nombre, apellido, telefono } = req.body;
 
     try {
         const pool = await poolPromise;
@@ -107,7 +107,7 @@ exports.createCliente = async (req, res) => {
 
         res.status(201).send('Cliente creado correctamente');
     } catch (error) {
-        console.error('❌ Error al crear cliente:', error);
+        console.error('Error al crear cliente:', error);
         res.status(500).send('Error en servidor');
     }
 }

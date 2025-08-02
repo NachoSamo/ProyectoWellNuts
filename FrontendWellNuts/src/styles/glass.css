@@ -3,7 +3,7 @@ body,
 #root {
   height: 100%;
   background-color: #23263a;
-  background-image: url('./public/topography.svg');
+  background-image: url('./topography.svg');
   width: 100%;
   margin: 0;
   padding: 0;

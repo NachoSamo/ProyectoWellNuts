@@ -2,7 +2,7 @@ import React from 'react';
 
 
 const VistaPerfil = ({ user, onEditProfile, onEditPassword }) => {
-  const backendUrl = 'http://localhost:3000'; // Tu puerto de backend
+  const backendUrl = 'http://localhost:6002'; // Tu puerto de backend
 
   if (!user) {
     return <h2 className="title-glass">Cargando perfil...</h2>;

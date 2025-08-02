@@ -13,7 +13,7 @@ const NavBar = () => {
         navigate('/login');
     };
 
-    const backendUrl = 'http://localhost:3000';
+    const backendUrl = 'http://localhost:6002';
     const profileImageUrl = user?.foto_perfil_url
         ? `${backendUrl}${user.foto_perfil_url}`
         : `${backendUrl}/uploads/default-profile.png`;

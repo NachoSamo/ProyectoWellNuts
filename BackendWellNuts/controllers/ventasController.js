@@ -39,25 +39,71 @@ exports.getVentaById = async (req, res) => {
 
 exports.eliminarVenta = async (req, res) => {
   const { id } = req.params;
+  const pool = await poolPromise;
+  const transaction = new sql.Transaction(pool); // Inicia la transacción
+
   try {
-    const pool = await poolPromise;
-    //usamos transacciones para asegurar la integridad de los datos ya que una venta puede tener varios detalles
-    //si eliminamos la venta, debemos eliminar también sus detalles
-    const transaction = new sql.Transaction(pool);
     await transaction.begin();
 
+    // --- LÓGICA AÑADIDA ---
+    // PASO 1: Obtener todos los detalles de la venta que se va a eliminar.
+    // Necesitamos esta información ANTES de borrarla para saber qué stock restaurar.
+    const detallesResult = await new sql.Request(transaction)
+      .input('id_venta', sql.Int, id)
+      .query(`
+        SELECT id_producto, cantidad 
+        FROM DetalleVenta 
+        WHERE id_venta = @id_venta
+      `);
+
+    const detalles = detallesResult.recordset;
+
+    // PASO 2: Iterar sobre cada detalle para devolver el stock.
+    for (const detalle of detalles) {
+      // Obtener la información del producto para saber a qué variedad pertenece y cuántos gramos representa.
+      const productoResult = await new sql.Request(transaction)
+        .input('id_producto', sql.Int, detalle.id_producto)
+        .query(`
+          SELECT id_variedad, tamaño_gramos 
+          FROM Productos 
+          WHERE id_producto = @id_producto
+        `);
+
+      if (productoResult.recordset.length > 0) {
+        const { id_variedad, tamaño_gramos } = productoResult.recordset[0];
+        const gramosARestituir = detalle.cantidad * tamaño_gramos;
+
+        // Actualizar el stock de la variedad, SUMANDO la cantidad vendida.
+        await new sql.Request(transaction)
+          .input('id_variedad', sql.Int, id_variedad)
+          .input('gramos', sql.Int, gramosARestituir)
+          .query(`
+            UPDATE VariedadProducto
+            SET stock_gramos = stock_gramos + @gramos
+            WHERE id_variedad = @id_variedad
+          `);
+      }
+    }
+    // --- FIN DE LA LÓGICA AÑADIDA ---
+
+
+    // PASO 3: Eliminar los detalles de la venta (tu código original).
     await new sql.Request(transaction)
       .input('id', sql.Int, id)
       .query('DELETE FROM DetalleVenta WHERE id_venta = @id');
 
+    // PASO 4: Eliminar la venta principal (tu código original).
     await new sql.Request(transaction)
       .input('id', sql.Int, id)
       .query('DELETE FROM Ventas WHERE id_venta = @id');
 
-    await transaction.commit();
-    res.send('Venta eliminada correctamente');
+    await transaction.commit(); // Si todo sale bien, se confirman los cambios.
+    res.send('Venta eliminada y stock restaurado correctamente');
+
   } catch (error) {
     console.error('Error al eliminar venta:', error);
+    // Si algo falla, la transacción se revierte y nada se guarda en la DB.
+    await transaction.rollback(); 
     res.status(500).send('Error al eliminar venta');
   }
 };
